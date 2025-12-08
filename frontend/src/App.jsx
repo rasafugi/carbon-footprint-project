@@ -4,6 +4,8 @@ import { useInView } from 'react-intersection-observer';
 import { Link as ScrollLink } from 'react-scroll';
 import { FaLeaf, FaChartPie, FaDatabase, FaMobileAlt, FaRecycle, FaCarSide, FaUtensils, FaShoppingBag, FaIndustry, FaServer, FaRobot, FaHandHoldingHeart, FaBars, FaTimes } from 'react-icons/fa';
 import { HiLightBulb } from "react-icons/hi";
+import axios from 'axios'; // 用於登出與檢查登入狀態
+import AuthModal from './components/AuthModal'; // 引入剛剛寫好的模組
 
 // --- 動畫設定 ---
 // 定義 Framer Motion 的動畫變體，用於滾動時元素的浮現效果
@@ -46,12 +48,13 @@ const SectionTitle = ({ title, subtitle }) => (
   </div>
 );
 
-// --- 導航列組件 (Navbar) ---
-const Navbar = () => {
+// --- 導覽列組件 (Navbar) ---
+// 接收三個 props: onOpenAuth (開彈窗), currentUser (使用者資料), onLogout (登出)
+const Navbar = ({ onOpenAuth, currentUser, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // 監聽滾動事件以改變導航列樣式
+  // 監聽滾動事件
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -64,8 +67,7 @@ const Navbar = () => {
     { to: "background", label: "背景與理念" },
     { to: "features", label: "核心功能" },
     { to: "ux-design", label: "UX 設計" },
-    { to: "tech-stack", label: "技術亮點" },
-    { to: "value", label: "社會價值" },
+    { to: "tech-stack", label: "技術" },
   ];
 
   return (
@@ -77,7 +79,7 @@ const Navbar = () => {
         </ScrollLink>
         
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <ScrollLink 
               key={link.to} 
@@ -92,11 +94,34 @@ const Navbar = () => {
               {link.label}
             </ScrollLink>
           ))}
+
+          {/* --- 動態登入區塊 (Desktop) --- */}
+          {currentUser ? (
+            <div className="flex items-center gap-4 ml-4 pl-4 border-l-2 border-slate-200">
+              <div className="text-right">
+                <p className="text-xs text-slate-400 font-bold">歡迎回來</p>
+                <p className="text-sm font-bold text-emerald-700">{currentUser.fullName}</p>
+              </div>
+              <button 
+                onClick={onLogout}
+                className="bg-slate-200 hover:bg-slate-300 text-slate-600 px-4 py-2 rounded-full text-sm font-bold transition"
+              >
+                登出
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={onOpenAuth}
+              className="bg-emerald-600 text-white px-6 py-2 rounded-full hover:bg-emerald-700 transition shadow-lg font-bold ml-4"
+            >
+              登入 / 註冊
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600">
             {isOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
           </button>
         </div>
@@ -107,7 +132,7 @@ const Navbar = () => {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-white shadow-lg absolute w-full px-6 py-4 flex flex-col space-y-4"
+          className="md:hidden bg-white shadow-lg absolute w-full px-6 py-4 flex flex-col space-y-4 border-t border-slate-100"
         >
           {navLinks.map((link) => (
              <ScrollLink 
@@ -117,11 +142,28 @@ const Navbar = () => {
                 offset={-70} 
                 duration={500}
                 onClick={() => setIsOpen(false)}
-                className="cursor-pointer font-medium text-slate-600 hover:text-emerald-600"
+                className="cursor-pointer font-medium text-slate-600 hover:text-emerald-600 py-2 border-b border-slate-50"
               >
                 {link.label}
             </ScrollLink>
           ))}
+          
+          {/* --- 動態登入區塊 (Mobile) --- */}
+          <div className="pt-2">
+            {currentUser ? (
+              <div className="flex justify-between items-center bg-slate-50 p-3 rounded-lg">
+                <span className="font-bold text-emerald-700">Hi, {currentUser.fullName}</span>
+                <button onClick={onLogout} className="text-sm text-slate-500 hover:text-red-500 underline">登出</button>
+              </div>
+            ) : (
+              <button 
+                onClick={() => { onOpenAuth(); setIsOpen(false); }}
+                className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold shadow-md"
+              >
+                登入 / 註冊會員
+              </button>
+            )}
+          </div>
         </motion.div>
       )}
     </nav>
@@ -472,9 +514,55 @@ const Footer = () => (
 
 // --- 主應用組件 (App.js) ---
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // 1. 初始化：檢查使用者是否已經登入 (呼叫後端 /api/me)
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        // 注意：這裡要傳送認證 Cookie (withCredentials: true 在 axios 全域設定或這裡加)
+        const res = await axios.get('http://127.0.0.1:5000/api/me', { withCredentials: true });
+        if (res.data.is_logged_in) {
+          setCurrentUser(res.data.user);
+        }
+      } catch (error) {
+        console.error("尚未登入或連線失敗");
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  // 2. 登出處理函式
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://127.0.0.1:5000/api/logout', {}, { withCredentials: true });
+      setCurrentUser(null);
+      alert("已安全登出");
+    } catch (error) {
+      console.error("登出失敗");
+    }
+  };
+
   return (
     <div className="antialiased overflow-x-hidden bg-slate-50">
-      <Navbar />
+      {/* 3. 將 State 與處理函式傳給 Navbar */}
+      <Navbar 
+        onOpenAuth={() => setIsModalOpen(true)} 
+        currentUser={currentUser} 
+        onLogout={handleLogout} 
+      />
+      
+      {/* 4. 掛載登入彈窗模組 */}
+      <AuthModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        onLoginSuccess={(user) => {
+          setCurrentUser(user);
+          setIsModalOpen(false); // 登入成功後關閉視窗
+        }}
+      />
+
       <HeroSection />
       <BackgroundAndPhilosophy />
       <FeaturesSection />

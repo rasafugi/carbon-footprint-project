@@ -1,0 +1,14 @@
+# --- Python 忽略清單 ---
+venv/
+__pycache__/
+*.pyc
+.env
+
+# --- React/Node.js 忽略清單 ---
+node_modules/
+dist/
+build/
+.DS_Store
+
+# --- VS Code 設定檔 (看你想不想傳，通常忽略) ---
+.vscode/

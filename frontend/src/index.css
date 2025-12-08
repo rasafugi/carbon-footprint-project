@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* 確保沒有 display: flex */
+  display: block; 
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f8fafc; /* 淺灰色背景，避免變全黑 */
+}

@@ -67,7 +67,8 @@ const Navbar = ({ onOpenAuth, currentUser, onLogout }) => {
     { to: "background", label: "背景與理念" },
     { to: "features", label: "核心功能" },
     { to: "ux-design", label: "UX 設計" },
-    { to: "tech-stack", label: "技術" },
+    { to: "tech-stack", label: "技術亮點" },
+    { to: "value", label: "社會價值" },
   ];
 
   return (

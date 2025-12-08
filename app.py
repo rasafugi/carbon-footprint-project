@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-from db_manager import get_db_connection  # 引入剛剛寫的模組
+from db_manager import get_db_connection
 from services.calculator import calculate_quick_footprint
 import json
 import os
@@ -10,19 +10,19 @@ import os
 app = Flask(__name__)
 
 # --- 1. 設定 Session 安全性 (關鍵修正) ---
-app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key")
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # 允許同站寬鬆策略，解決開發環境 Cookie 被擋的問題
-app.config['SESSION_COOKIE_SECURE'] = False    # 本機開發使用 HTTP，設為 False (上線部署時要改 True)
+app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key_change_in_production")
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # ✅ 改為 None，允許跨域傳送
+app.config['SESSION_COOKIE_SECURE'] = False     # ⚠️ 本機開發使用 HTTP 必須是 False
+app.config['SESSION_COOKIE_HTTPONLY'] = True    # ✅ 防止 XSS 攻擊
+app.config['SESSION_COOKIE_PATH'] = '/'         # ✅ 確保所有路徑都能存取
 
-# --- 2. 設定 CORS 白名單 (關鍵修正) ---
-# 我們必須「明確列出」允許的前端網址，瀏覽器才願意傳送 Cookie
-CORS(app, resources={
-    r"/api/*": {
-        "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
-    }
-}, supports_credentials=True)
+# --- 2. 設定 CORS (關鍵修正) ---
+CORS(app, 
+     origins=["http://localhost:5173", "http://127.0.0.1:5173"],  # ✅ 明確列出前端網址
+     supports_credentials=True,  # ✅ 允許傳送 Cookie
+     allow_headers=["Content-Type", "Authorization"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+)
 
 # --- API 路由 ---
 
@@ -30,12 +30,10 @@ CORS(app, resources={
 def register():
     data = request.json
     
-    # 1. 驗證必填欄位
     required_fields = ['username', 'email', 'password', 'fullName', 'gender', 'city', 'district', 'birthdate', 'occupation']
     if not all(k in data for k in required_fields):
         return jsonify({"error": "缺少必填欄位"}), 400
 
-    # 2. 處理性別 (如果是 Other，讀取 genderOther)
     gender_val = data['gender']
     gender_other_val = data.get('genderOther', None) if gender_val == 'Other' else None
 
@@ -43,12 +41,10 @@ def register():
     cursor = conn.cursor(dictionary=True)
 
     try:
-        # 3. 檢查帳號或 Email 是否重複
         cursor.execute("SELECT id FROM users WHERE username = %s OR email = %s", (data['username'], data['email']))
         if cursor.fetchone():
             return jsonify({"error": "帳號或 Email 已被註冊"}), 409
 
-        # 4. 密碼加密與寫入資料庫
         hashed_password = generate_password_hash(data['password'])
         
         sql = """
@@ -66,7 +62,7 @@ def register():
         return jsonify({"message": "註冊成功！請登入"}), 201
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Register Error: {e}")
         return jsonify({"error": "伺服器錯誤"}), 500
     finally:
         cursor.close()
@@ -82,15 +78,18 @@ def login():
     cursor = conn.cursor(dictionary=True)
 
     try:
-        # 1. 撈取使用者
         cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
         user = cursor.fetchone()
 
-        # 2. 比對密碼
         if user and check_password_hash(user['password_hash'], password):
-            # 登入成功，寫入 Session
+            # ✅ 登入成功，寫入 Session
+            session.clear()  # 清除舊 session
             session['user_id'] = user['id']
             session['username'] = user['username']
+            session.permanent = True  # ✅ 設定為永久 session
+            
+            print(f"✅ Login Success: User {username} logged in, session ID: {session.get('user_id')}")  # Debug
+            
             return jsonify({
                 "message": "登入成功",
                 "user": {"username": user['username'], "fullName": user['full_name']}
@@ -99,25 +98,51 @@ def login():
             return jsonify({"error": "帳號或密碼錯誤"}), 401
 
     except Exception as e:
+        print(f"Login Error: {e}")
         return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
         conn.close()
 
+# ✅ 新增：檢查登入狀態 API
+@app.route('/api/me', methods=['GET'])
+def get_current_user():
+    """檢查使用者是否已登入"""
+    print(f"🔍 Session Check: {session}")  # Debug
+    
+    if 'user_id' in session:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        try:
+            cursor.execute("SELECT username, full_name FROM users WHERE id = %s", (session['user_id'],))
+            user = cursor.fetchone()
+            if user:
+                return jsonify({
+                    "is_logged_in": True,
+                    "user": {"username": user['username'], "fullName": user['full_name']}
+                }), 200
+        finally:
+            cursor.close()
+            conn.close()
+    
+    return jsonify({"is_logged_in": False}), 401
+
 @app.route('/api/calculate/quick', methods=['POST'])
 def quick_calculation():
-    """ 快速估算 API """
+    """快速估算 API - 需要登入"""
+    print(f"🔍 Quick Calc Session: {session}")  # ✅ Debug: 檢查 session 內容
+    
     if 'user_id' not in session:
+        print("❌ Unauthorized: No user_id in session")  # Debug
         return jsonify({"error": "請先登入"}), 401
     
     data = request.json
-    # data 預期格式: { "commute": "scooter_gas", "diet": "balanced", "shopping": "medium" }
+    print(f"📊 Calculation Input: {data}")  # Debug
 
     try:
-        # 1. 呼叫微服務進行計算
         result = calculate_quick_footprint(data)
         
-        # 2. 儲存結果到資料庫
+        # 儲存計算結果到資料庫
         conn = get_db_connection()
         cursor = conn.cursor()
         
@@ -137,15 +162,17 @@ def quick_calculation():
         cursor.close()
         conn.close()
 
+        print(f"✅ Calculation Success: {result}")  # Debug
         return jsonify(result), 200
 
     except Exception as e:
-        print(f"Calculation Error: {e}")
+        print(f"❌ Calculation Error: {e}")
         return jsonify({"error": "計算失敗"}), 500
 
 @app.route('/api/logout', methods=['POST'])
 def logout():
     session.clear()
+    print("✅ User logged out")  # Debug
     return jsonify({"message": "已登出"}), 200
 
 if __name__ == '__main__':

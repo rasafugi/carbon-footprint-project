@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 # --- 1. 設定 Session 安全性 (關鍵修正) ---
 app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key_change_in_production")
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # ✅ 改為 None，允許跨域傳送
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # ✅ 改為 None，允許跨域傳送
 app.config['SESSION_COOKIE_SECURE'] = False     # ⚠️ 本機開發使用 HTTP 必須是 False
 app.config['SESSION_COOKIE_HTTPONLY'] = True    # ✅ 防止 XSS 攻擊
 app.config['SESSION_COOKIE_PATH'] = '/'         # ✅ 確保所有路徑都能存取

@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_manager import get_db_connection  # 引入剛剛寫的模組
+from services.calculator import calculate_quick_footprint
+import json
 import os
 
 app = Flask(__name__)
@@ -88,6 +90,45 @@ def login():
     finally:
         cursor.close()
         conn.close()
+
+@app.route('/api/calculate/quick', methods=['POST'])
+def quick_calculation():
+    """ 快速估算 API """
+    if 'user_id' not in session:
+        return jsonify({"error": "請先登入"}), 401
+    
+    data = request.json
+    # data 預期格式: { "commute": "scooter_gas", "diet": "balanced", "shopping": "medium" }
+
+    try:
+        # 1. 呼叫微服務進行計算
+        result = calculate_quick_footprint(data)
+        
+        # 2. 儲存結果到資料庫
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        sql = """
+            INSERT INTO carbon_logs (user_id, log_type, input_data, total_carbon, breakdown, suggestions)
+            VALUES (%s, 'Quick', %s, %s, %s, %s)
+        """
+        val = (
+            session['user_id'],
+            json.dumps(data),
+            result['total'],
+            json.dumps(result['breakdown']),
+            result['suggestion']
+        )
+        cursor.execute(sql, val)
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify(result), 200
+
+    except Exception as e:
+        print(f"Calculation Error: {e}")
+        return jsonify({"error": "計算失敗"}), 500
 
 @app.route('/api/logout', methods=['POST'])
 def logout():

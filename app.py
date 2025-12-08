@@ -8,14 +8,21 @@ import json
 import os
 
 app = Flask(__name__)
+
 # --- 1. 設定 Session 安全性 (關鍵修正) ---
 app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key")
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # 允許同站寬鬆策略
-app.config['SESSION_COOKIE_SECURE'] = False    # 本機開發使用 HTTP，設為 False (上線要改 True)
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # 允許同站寬鬆策略，解決開發環境 Cookie 被擋的問題
+app.config['SESSION_COOKIE_SECURE'] = False    # 本機開發使用 HTTP，設為 False (上線部署時要改 True)
 
 # --- 2. 設定 CORS 白名單 (關鍵修正) ---
-# 明確指定前端的網址 (localhost 和 127.0.0.1 都要列出來，因為這兩個被視為不同網域)
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}}, supports_credentials=True)
+# 我們必須「明確列出」允許的前端網址，瀏覽器才願意傳送 Cookie
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+}, supports_credentials=True)
 
 # --- API 路由 ---
 

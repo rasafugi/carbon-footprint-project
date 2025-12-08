@@ -36,7 +36,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     const endpoint = isLoginView ? 'http://127.0.0.1:5000/api/login' : 'http://127.0.0.1:5000/api/register';
     
     try {
-      const res = await axios.post(endpoint, formData);
+      const res = await axios.post(endpoint, formData, { withCredentials: true });
       if (isLoginView) {
         onLoginSuccess(res.data.user);
         onClose();

@@ -67,28 +67,38 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
         className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl md:w-[900px] h-[650px] overflow-hidden relative flex flex-col md:flex-row"
       >
         
-        {/* 左側圖片區 */}
-        <div className="hidden md:flex md:w-5/12 bg-gradient-to-br from-emerald-50 to-teal-100 relative items-end justify-end overflow-hidden">
+        {/* --- 左側圖片區 --- */}
+        {/* 維持 md:w-4/12 讓左側較窄，右側表單視覺延伸過來 */}
+        {/* z-20 確保角色在最上層 */}
+        <div className="hidden md:flex md:w-4/12 bg-gradient-to-br from-emerald-50 to-teal-100 relative items-end justify-center z-20">
+            
+            {/* 背景光暈 */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-200/50 rounded-full blur-3xl"></div>
             
+            {/* 角色圖片 */}
             <img 
                 src={characterImg} 
                 onError={(e) => e.target.src = PLACEHOLDER_IMG}
                 alt="Character" 
-                // 修改 1: 移除了 hover:scale-105，圖片現在固定不動
-                className="relative z-10 h-[95%] w-auto object-contain object-right-bottom drop-shadow-2xl transition-transform duration-700"
+                // --- 修改重點 ---
+                // right-[-5%]：只稍微往右偏移一點點，讓手掌剛好搭在邊界上
+                // h-[95%]：稍微縮小一點點高度，讓畫面更有呼吸感（原本 105% 可能太滿）
+                // object-contain：保持比例
+                className="absolute bottom-0 right-[-2%] h-[95%] w-auto object-contain drop-shadow-2xl pointer-events-none"
             />
         </div>
 
-        {/* 右側內容區 */}
-        <div className="w-full md:w-7/12 flex flex-col h-full bg-white relative">
+        {/* --- 右側內容區 --- */}
+        {/* md:w-8/12 佔比較大，看起來像表單往左延伸 */}
+        {/* z-10 確保在角色下方 */}
+        <div className="w-full md:w-8/12 flex flex-col h-full bg-white relative z-10">
             <button onClick={onClose} className="absolute top-4 right-4 z-20 text-white/90 hover:text-white bg-black/10 hover:bg-black/20 p-1.5 rounded-full transition">
                 <FaTimes size={16} />
             </button>
 
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 flex-shrink-0 relative overflow-hidden">
-                <div className="relative z-10 text-white">
+                <div className="relative z-10 text-white pl-4">
                     <h2 className="text-2xl font-bold tracking-wide">{isLoginView ? '歡迎回來' : '建立帳戶'}</h2>
                     <p className="text-emerald-100 text-sm mt-1 opacity-90">
                         {isLoginView ? '登入以存取您的個人儀表板' : '加入我們，一起計算與減少碳足跡'}
@@ -97,18 +107,18 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
             </div>
 
-            {/* 表單區 (可捲動區域) - 修改 2: 縮減 Padding (p-8 -> p-6) 以節省空間 */}
-            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            {/* 表單內容 */}
+            <div className={`flex-1 overflow-y-auto p-6 custom-scrollbar flex flex-col ${isLoginView ? 'justify-center' : ''}`}>
+                
                 {error && (
                     <motion.div 
                         initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-                        className="bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-xl mb-4 text-sm flex items-center gap-2"
+                        className="bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-xl mb-4 text-sm flex items-center gap-2 flex-shrink-0"
                     >
                         <span>⚠️</span> {error}
                     </motion.div>
                 )}
 
-                {/* 修改 3: 縮減間距 (space-y-5 -> space-y-4) */}
                 <form onSubmit={handleSubmit} className="space-y-4 pb-2">
                     {/* 通用欄位 */}
                     <div className="space-y-3">
@@ -215,7 +225,6 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 </form>
             </div>
 
-            {/* 修改 4: 固定在底部的 Footer 切換區 (避免要滑到底才能切換) */}
             <div className="p-4 border-t border-gray-100 bg-white text-center text-sm text-gray-500 rounded-br-3xl flex-shrink-0 z-10">
                 {isLoginView ? '還沒有帳號嗎？' : '已經有帳號了？'} 
                 <button onClick={() => setIsLoginView(!isLoginView)} className="text-emerald-600 font-bold ml-2 hover:underline transition">

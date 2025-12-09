@@ -1,6 +1,6 @@
 // frontend/src/components/Auth/AuthImagePanel.jsx
 import React from 'react';
-import characterImg from '../../assets/character.png';
+import characterImg from '../../assets/character-01.png';
 
 // 備用圖片
 const PLACEHOLDER_IMG = "https://images.unsplash.com/photo-1546514355-7fdc90ccbd03?q=80&w=1887&auto=format&fit=crop";

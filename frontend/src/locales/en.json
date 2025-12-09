@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "background": "Background",
+    "features": "Features",
+    "ux_design": "UX Design",
+    "tech": "Tech Stack",
+    "value": "Social Value",
+    "login_register": "Login / Register"
+  },
+  "hero": {
+    "title_1": "Visualize Your Life's",
+    "title_2": "Real Impact",
+    "title_suffix": "on Earth.",
+    "subtitle": "Personal Carbon Footprint Platform — Using technology to make \"Carbon Emissions\" easy to understand, from awareness to every step of change.",
+    "cta": "Explore Concept"
+  },
+  "auth": {
+    "welcome": "Welcome Back",
+    "create_account": "Create Account",
+    "login_desc": "Log in to access your dashboard",
+    "register_desc": "Join us to calculate and reduce carbon footprint",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "fullname": "Full Name",
+    "login_btn": "Login Now",
+    "register_btn": "Register Account",
+    "switch_to_register": "No account yet?",
+    "switch_to_login": "Already have an account?",
+    "register_link": "Register Free",
+    "login_link": "Login Now"
+  }
+}

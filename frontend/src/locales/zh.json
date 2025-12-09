@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "background": "背景與理念",
+    "features": "核心功能",
+    "ux_design": "UX 設計",
+    "tech": "技術",
+    "value": "社會價值",
+    "login_register": "登入 / 註冊"
+  },
+  "hero": {
+    "title_1": "看見你的生活，",
+    "title_2": "對地球的",
+    "title_suffix": "真實影響。",
+    "subtitle": "個人碳排放檢測平台 —— 用科技讓「碳排」變容易理解，從意識到改變的每一步。",
+    "cta": "探索專題理念"
+  },
+  "auth": {
+    "welcome": "歡迎回來",
+    "create_account": "建立帳戶",
+    "login_desc": "登入以存取您的個人儀表板",
+    "register_desc": "加入我們，一起計算與減少碳足跡",
+    "username": "使用者帳號",
+    "password": "密碼",
+    "email": "電子信箱",
+    "fullname": "真實姓名",
+    "login_btn": "立即登入",
+    "register_btn": "註冊帳號",
+    "switch_to_register": "還沒有帳號嗎？",
+    "switch_to_login": "已經有帳號了？",
+    "register_link": "免費註冊",
+    "login_link": "馬上登入"
+  }
+}

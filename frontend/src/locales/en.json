@@ -29,5 +29,168 @@
     "switch_to_login": "Already have an account?",
     "register_link": "Register Free",
     "login_link": "Login Now"
+  },
+  "background": {
+    "section_title": "Background & Philosophy",
+    "why_title": "Why Personal Carbon Footprint Tracking?",
+    "intro_p1": "Climate change is a core global issue. Science shows that our daily behaviors—commuting, diet, electricity use—all accumulate carbon emissions. However, the public often finds it hard to understand \"how much exactly am I emitting?\" or \"which habits have the biggest impact?\".",
+    "intro_p2": "We hope to build a platform that, through intuitive interfaces and automated mechanisms, guides users to see the possibilities for change and reflect on the environmental impact of their lifestyle.",
+    "cards": {
+      "user_centric": {
+        "title": "User-Centric Design",
+        "desc": "Easy for non-professionals to use, with clear and transparent information presentation that doesn't create a burden."
+      },
+      "automated": {
+        "title": "Automated Data Updates",
+        "desc": "Uses API or crawler technology to automatically fetch the latest coefficients, avoiding errors from manual updates."
+      },
+      "intuitive": {
+        "title": "Intuitive Result Transformation",
+        "desc": "Transforms complex models into charts, impact analyses, and behavioral hotspots—it's not just calculation, it's education."
+      }
+    }
+  },
+  "features": {
+    "section_title": "Core Functional Modules (Module A–E)",
+    "subtitle": "Functionality designed based on international carbon footprint standards, covering all aspects of your life.",
+    "modules": {
+      "A": {
+        "title": "Household Energy",
+        "points": [
+          "Input water, electricity, and gas usage",
+          "Automatically apply latest coefficients",
+          "Visualize energy breakdown with charts"
+        ]
+      },
+      "B": {
+        "title": "Commute Calculation",
+        "points": [
+          "Integrated multiple transport modes",
+          "Select specific vehicle and fuel types",
+          "Commute scenario comparison"
+        ]
+      },
+      "C": {
+        "title": "Dietary Analysis",
+        "points": [
+          "Estimate based on food intake",
+          "Supports both Quick and Precise modes",
+          "Uses international LCA database"
+        ]
+      },
+      "D": {
+        "title": "Personal Consumption",
+        "points": [
+          "Spending on clothing and electronics",
+          "Apply lifecycle coefficients",
+          "Reveal 'embodied carbon' emissions"
+        ]
+      },
+      "E": {
+        "title": "Waste & Recycling",
+        "points": [
+          "Calculate emissions from waste",
+          "Quantify carbon reduction from recycling",
+          "Visualize the value of eco-actions"
+        ]
+      }
+    }
+  },
+  "ux_design": {
+    "section_title": "UX Design Philosophy: Two Modes, Your Choice",
+    "quick": {
+      "title": "Quick Estimate",
+      "subtitle": "For general users, approx. 30 sec",
+      "features": [
+        "Suitable for users who want a quick carbon overview.",
+        "Includes lifestyle multiple-choice questions, estimates using default coefficients.",
+        "Instantly provides total emissions, top 3 sources, and improvement suggestions."
+      ],
+      "highlight": "Emphasis: Fast, minimal input required"
+    },
+    "detailed": {
+      "title": "Detailed Analysis",
+      "subtitle": "For those wanting precision & willing to provide data",
+      "features": [
+        "Includes complete Module A–E forms (e.g., meter readings, mileage, food weight).",
+        "Precise Life Cycle Assessment (LCA) using actual data.",
+        "Customized data, suitable for research or education."
+      ],
+      "highlight": "Emphasis: Precise, customizable, research-grade data"
+    }
+  },
+  "tech_stack": {
+    "section_title": "Technical Implementation Highlights",
+    "subtitle": "As Computer Science students, we solve problems with engineering.",
+    "blocks": {
+      "backend": {
+        "title": "Backend Architecture",
+        "tools": "Python Flask / FastAPI",
+        "desc": "Automated background tasks for coefficient updates, modular calculation architecture, easy to maintain and extend."
+      },
+      "data": {
+        "title": "Automated Data Updates",
+        "tools": "API / Crawler Technology",
+        "desc": "Crawls government open data or official APIs, automatically compares versions and caches to ensure data is up-to-date."
+      },
+      "frontend": {
+        "title": "Frontend Presentation",
+        "tools": "React + Tailwind + Framer Motion",
+        "desc": "Lightweight and clear UI/UX, using dynamic charts to present emission structures and behavioral tags."
+      },
+      "database": {
+        "title": "Database Design",
+        "tools": "SQL / NoSQL",
+        "desc": "Stores anonymized behavioral data and latest coefficient caches, supporting future module expansion."
+      }
+    }
+  },
+  "info": {
+    "data_source": {
+      "title": "Data Sources & Protocols",
+      "standards_title": "📚 Adopted International Standards:",
+      "standards_list": [
+        "ISO 14064 / 14067: Carbon footprint calculation standards",
+        "<strong>IPCC</strong> (Intergovernmental Panel on Climate Change) emission factors",
+        "GHG Protocol (Greenhouse Gas Protocol)"
+      ],
+      "sources_title": "📚 Data Sources:",
+      "sources_note": "(Subject to adjustment based on availability)",
+      "sources_tags": [
+        "Taiwan Ministry of Environment", 
+        "IEA (International Energy Agency)", 
+        "FAO Food LCA Database", 
+        "Government Open Data"
+      ]
+    },
+    "social_value": {
+      "title": "Social Value & Scalability",
+      "cards": [
+        {
+          "icon": "🌱",
+          "title": "1. Understanding Impact",
+          "desc": "Empowering non-experts to understand how their lifestyle affects the planet without needing specialized knowledge."
+        },
+        {
+          "icon": "🎓",
+          "title": "2. Environmental Education",
+          "desc": "A teaching tool suitable for university courses, high school education, and corporate ESG activities."
+        },
+        {
+          "icon": "🔄",
+          "title": "3. Facilitating Change",
+          "desc": "Replacing abstract concepts with quantified feedback, providing a clear direction for behavioral improvement."
+        },
+        {
+          "icon": "📈",
+          "title": "4. Extended Applications",
+          "desc": "Future scalability for personal ESG reports, community carbon analysis, and aligning with government policies."
+        }
+      ]
+    }
+  },
+  "footer": {
+    "project_info": "Department of Computer Science Graduation Project — Personal Carbon Footprint Platform",
+    "copyright": "© {{year}} All rights reserved. Using technology to do our part for the Earth."
   }
 }

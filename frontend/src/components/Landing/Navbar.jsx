@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
-import { FaLeaf, FaBars, FaTimes } from 'react-icons/fa';
+import { FaLeaf, FaBars, FaTimes, FaGlobe } from 'react-icons/fa'; // ✅ 這裡一定要有 FaGlobe
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'; // 確保這行也有，如果你要用翻譯功能的話
 
 const Navbar = ({ onOpenAuth }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { t, i18n } = useTranslation();
+  
+  // 使用翻譯 hook (如果這行報錯，代表你還沒做 i18n 設定，可以先註解掉並改回寫死的文字)
+  const { t, i18n } = useTranslation(); 
 
   // 切換語言函式
   const toggleLanguage = () => {
-    const newLang = i18n.language.startsWith('zh') ? 'en' : 'zh';
-    i18n.changeLanguage(newLang);
+    // 防呆：確認 i18n 是否存在 (避免未設定時報錯)
+    if (i18n) {
+        const newLang = i18n.language.startsWith('zh') ? 'en' : 'zh';
+        i18n.changeLanguage(newLang);
+    }
   };
 
-  // 監聽捲動事件，改變 Navbar 背景樣式
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -54,7 +58,8 @@ const Navbar = ({ onOpenAuth }) => {
               className="cursor-pointer font-medium text-slate-600 hover:text-emerald-600 transition text-sm uppercase tracking-wider"
               activeClass="text-emerald-600 font-bold"
             >
-              {t(link.labelKey)} {/* ✨ 使用 t() 翻譯 */}
+              {/* 如果 i18n 尚未設定好，這裡可能會報錯，可以暫時改回 link.label */}
+              {t ? t(link.labelKey) : "Menu"} 
             </ScrollLink>
           ))}
           
@@ -63,15 +68,15 @@ const Navbar = ({ onOpenAuth }) => {
             onClick={toggleLanguage}
             className="flex items-center gap-1 text-slate-600 hover:text-emerald-600 transition font-medium"
           >
-            <FaGlobe />
-            <span>{i18n.language.startsWith('zh') ? 'EN' : '中'}</span>
+            <FaGlobe /> {/* ✅ 這裡使用了 FaGlobe，所以上面必須 import */}
+            <span>{i18n && i18n.language && i18n.language.startsWith('zh') ? 'EN' : '中'}</span>
           </button>
 
           <button 
             onClick={onOpenAuth}
             className="bg-emerald-600 text-white px-6 py-2 rounded-full hover:bg-emerald-700 transition shadow-lg font-bold ml-4"
           >
-            {t('nav.login_register')} {/* ✨ 使用 t() 翻譯 */}
+            {t ? t('nav.login_register') : "Login / Register"}
           </button>
         </div>
 
@@ -105,7 +110,7 @@ const Navbar = ({ onOpenAuth }) => {
                 onClick={() => setIsOpen(false)}
                 className="cursor-pointer font-medium text-slate-600 hover:text-emerald-600 py-2 border-b border-slate-50"
               >
-                {t(link.labelKey)} {/* ✨ 使用 t() 翻譯 */}
+                {t ? t(link.labelKey) : "Menu"}
             </ScrollLink>
           ))}
           
@@ -114,7 +119,7 @@ const Navbar = ({ onOpenAuth }) => {
               onClick={() => { onOpenAuth(); setIsOpen(false); }}
               className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold shadow-md"
             >
-              {t('nav.login_register')}
+              {t ? t('nav.login_register') : "Login"}
             </button>
           </div>
         </motion.div>

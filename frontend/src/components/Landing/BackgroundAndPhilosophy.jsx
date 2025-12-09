@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next'; // ✨ 引入 useTranslation
 import { HiLightBulb } from 'react-icons/hi';
 import { FaHandHoldingHeart, FaRobot, FaChartPie } from 'react-icons/fa';
 
@@ -8,10 +9,13 @@ import SectionTitle from './SectionTitle';
 import { fadeUpVariants, staggerContainer } from '../../utils/motion';
 
 const BackgroundAndPhilosophy = () => {
+  const { t } = useTranslation(); // ✨ 使用 hook
+
   return (
     <section id="background" className="py-20 bg-slate-50">
       <div className="container mx-auto px-6">
-        <SectionTitle title="專題背景與設計理念" subtitle={true} />
+        {/* 1. 標題翻譯 */}
+        <SectionTitle title={t('background.section_title')} subtitle={true} />
         
         {/* 上半部：圖文介紹 */}
         <div className="flex flex-col md:flex-row items-center gap-12 mb-24">
@@ -29,14 +33,18 @@ const BackgroundAndPhilosophy = () => {
             className="md:w-1/2 space-y-6"
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariants}
           >
+            {/* 2. 副標題翻譯 */}
             <h3 className="text-2xl font-bold flex items-center gap-2">
-              <HiLightBulb className="text-emerald-500" /> 為何需要個人碳排放檢測？
+              <HiLightBulb className="text-emerald-500 flex-shrink-0" /> 
+              {t('background.why_title')}
             </h3>
+            
+            {/* 3. 內文翻譯 */}
             <p className="text-lg text-slate-600 leading-relaxed">
-              氣候變遷是全球核心議題。科學顯示，我們日常微小的行為——通勤、飲食、用電，都在累積碳排放。然而，大眾往往難以理解自己「究竟排放了多少？」或「哪些習慣影響最大？」。
+              {t('background.intro_p1')}
             </p>
             <p className="text-lg font-medium text-emerald-700 p-4 bg-emerald-50 rounded-lg border-l-4 border-emerald-500">
-              我們希望建立一個平台，透過直覺介面與自動化機制，引導使用者看見改變的可能，反思生活對環境的影響。
+              {t('background.intro_p2')}
             </p>
           </motion.div>
         </div>
@@ -49,10 +57,23 @@ const BackgroundAndPhilosophy = () => {
           viewport={{ once: true }}
           className="grid md:grid-cols-3 gap-8"
         >
+            {/* 4. 卡片內容翻譯 - 使用 map 渲染 */}
             {[
-              { icon: <FaHandHoldingHeart />, title: "以使用者為中心", desc: "非專業人士也能輕鬆使用，資訊呈現清晰透明，不造成負擔。" },
-              { icon: <FaRobot />, title: "自動化數據更新", desc: "利用 API 或爬蟲技術自動獲取最新係數，避免手動更新的錯誤。" },
-              { icon: <FaChartPie />, title: "直觀的結果轉化", desc: "將複雜模型轉化為圖表、影響分析與行為熱點，不只是計算，更是教育。" },
+              { 
+                icon: <FaHandHoldingHeart />, 
+                title: t('background.cards.user_centric.title'), 
+                desc: t('background.cards.user_centric.desc') 
+              },
+              { 
+                icon: <FaRobot />, 
+                title: t('background.cards.automated.title'), 
+                desc: t('background.cards.automated.desc') 
+              },
+              { 
+                icon: <FaChartPie />, 
+                title: t('background.cards.intuitive.title'), 
+                desc: t('background.cards.intuitive.desc') 
+              },
             ].map((item, index) => (
               <motion.div key={index} variants={fadeUpVariants} className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border-t-4 border-emerald-500">
                 <div className="text-4xl text-emerald-500 mb-4">{item.icon}</div>

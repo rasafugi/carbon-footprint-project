@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaBolt, FaCar, FaUtensils, FaShoppingBag, FaRecycle, FaArrowLeft, FaLeaf } from 'react-icons/fa';
+// ✨ 修正：在這裡加入了 FaCheck
+import { FaBolt, FaCar, FaUtensils, FaShoppingBag, FaRecycle, FaArrowLeft, FaLeaf, FaCheck } from 'react-icons/fa';
 
 const DetailedAnalysis = () => {
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ const DetailedAnalysis = () => {
           </div>
         );
 
-      // --- Step 3: 飲食 (補齊) ---
+      // --- Step 3: 飲食 ---
       case 3:
         return (
           <div className="space-y-6 animate-fadeIn">
@@ -135,7 +136,7 @@ const DetailedAnalysis = () => {
           </div>
         );
 
-      // --- Step 4: 消費 (補齊) ---
+      // --- Step 4: 消費 ---
       case 4:
         return (
           <div className="space-y-6 animate-fadeIn">
@@ -159,7 +160,7 @@ const DetailedAnalysis = () => {
           </div>
         );
 
-      // --- Step 5: 廢棄物 (補齊) ---
+      // --- Step 5: 廢棄物 ---
       case 5:
         return (
           <div className="space-y-6 animate-fadeIn">

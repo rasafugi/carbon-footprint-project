@@ -70,6 +70,7 @@ const Navbar = ({ onOpenAuth }) => {
     { to: "features", label: "核心功能" },
     { to: "ux-design", label: "UX 設計" },
     { to: "tech-stack", label: "技術" },
+    { to: "value", label: "社會價值" },
   ];
 
   return (

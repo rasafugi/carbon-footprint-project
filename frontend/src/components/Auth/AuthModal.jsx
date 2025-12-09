@@ -1,9 +1,8 @@
-// frontend/src/components/Auth/AuthModal.jsx
 import React, { useState } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'; // 引入 LayoutGroup
-import { FaTimes } from 'react-icons/fa';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { FaTimes, FaUser, FaLock } from 'react-icons/fa';
 import axios from 'axios';
-import { taiwanPlaces, occupations } from '../../data/options';
+import { occupations, taiwanPlaces } from '../../data/options'; // 請確保路徑正確
 
 // 引入子元件
 import AuthImagePanel from './AuthImagePanel';
@@ -12,7 +11,6 @@ import RegisterFields from './RegisterFields';
 
 const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [isLoginView, setIsLoginView] = useState(true);
-  // ... (formData, loading, error 狀態保持不變，省略以節省空間)
   const [formData, setFormData] = useState({
     username: '', password: '', email: '',
     fullName: '', gender: 'Male', genderOther: '',
@@ -22,7 +20,6 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // ... (handleChange, handleSubmit 函式保持不變，省略以節省空間)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => {
@@ -57,40 +54,41 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     }
   };
 
-
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 select-none">
-      {/* 使用 LayoutGroup 包裹，確保內部組件的 layout 動畫能協同工作 */}
       <LayoutGroup>
         <motion.div 
-            layout // 啟用整體佈局動畫
+            layout
             initial={{ scale: 0.95, opacity: 0 }} 
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
-            // 移除 overflow-hidden，改在子元素處理圓角，以避免動畫裁切問題
-            className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl md:w-[900px] h-[650px] relative flex flex-col md:flex-row"
+            // 確保這裡沒有 overflow-hidden，讓圖片可以凸出去
+            className="bg-transparent w-full max-w-5xl md:w-[900px] h-[650px] relative flex flex-col md:flex-row shadow-2xl rounded-3xl"
         >
             
-            {/* --- 左側/右側 圖片區 --- */}
+            {/* --- 圖片區塊 (層級較高 z-20) --- */}
             <motion.div 
-                layout // 啟用佈局動畫，實現平滑移動
-                // 根據狀態改變 order：登入時在左 (order-1)，註冊時在右 (order-2)
-                className={`hidden md:flex md:w-4/12 h-full z-20 transition-all duration-500 ease-in-out ${isLoginView ? 'md:order-1' : 'md:order-2'}`}
+                layout
+                // 根據狀態改變 order：登入時在左 (1)，註冊時在右 (2)
+                // 重要：這裡移除了 transition-all，讓 layout 屬性處理平滑移動
+                className={`hidden md:flex md:w-4/12 h-full z-20 ${isLoginView ? 'md:order-1' : 'md:order-2'}`}
             >
-                {/* 將 isLoginView 傳遞給 ImagePanel 以切換圖片和位置 */}
                 <AuthImagePanel isLoginView={isLoginView} />
             </motion.div>
 
-            {/* --- 右側/左側 內容區 --- */}
+            {/* --- 表單內容區塊 (層級較低 z-10) --- */}
             <motion.div 
-                layout // 啟用佈局動畫
-                // 根據狀態改變 order：登入時在右 (order-2)，註冊時在左 (order-1)
-                // 根據狀態改變圓角：在右側時左邊直角，在左側時右邊直角
-                className={`w-full md:w-8/12 flex flex-col h-full bg-white relative z-10 transition-all duration-500 ease-in-out ${isLoginView ? 'md:order-2 md:rounded-r-3xl' : 'md:order-1 md:rounded-l-3xl'}`}
+                layout
+                // 根據狀態改變 order：登入時在右 (2)，註冊時在左 (1)
+                // 根據狀態改變圓角：確保跟圖片接合處是直角
+                className={`w-full md:w-8/12 flex flex-col h-full bg-white relative z-10 
+                  ${isLoginView ? 'md:order-2 md:rounded-r-3xl md:rounded-l-none' : 'md:order-1 md:rounded-l-3xl md:rounded-r-none'} 
+                  rounded-3xl md:rounded-none overflow-hidden`} 
             >
+                {/* 關閉按鈕 */}
                 <button onClick={onClose} className="absolute top-4 right-4 z-30 text-white/90 hover:text-white bg-black/10 hover:bg-black/20 p-1.5 rounded-full transition">
                     <FaTimes size={16} />
                 </button>
@@ -98,27 +96,62 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 {/* Header */}
                 <AuthHeader isLoginView={isLoginView} />
 
-                {/* 表單內容 (保持不變，省略部分內容以節省空間) */}
+                {/* 滾動區域 */}
                 <div className={`flex-1 overflow-y-auto p-6 custom-scrollbar flex flex-col ${isLoginView ? 'justify-center' : ''}`}>
-                    {/* ... Error Message ... */}
-                    {/* ... Form Fields ... */}
-                    {/* ... Login/Register Fields ... */}
+                    
+                    {error && (
+                        <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-xl mb-4 text-sm flex items-center gap-2 flex-shrink-0">
+                            <span>⚠️</span> {error}
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-4 pb-2">
-                       {/* (這裡的表單內容與原本相同，請保留原本的程式碼) */}
-                       {/* ...省略... */}
-                       {/* 註冊專用欄位 */}
-                       <AnimatePresence>
-                           {!isLoginView && (
-                               <RegisterFields formData={formData} handleChange={handleChange} />
-                           )}
-                       </AnimatePresence>
-                       {/* ...省略... */}
+                        {/* --- 登入/註冊 通用欄位 (帳號與密碼) --- */}
+                        <div className="space-y-3">
+                            <div className="relative group">
+                                <FaUser className="absolute left-4 top-3.5 text-gray-400 transition group-focus-within:text-emerald-600" />
+                                <input 
+                                  type="text" 
+                                  name="username" 
+                                  placeholder="使用者帳號" 
+                                  required 
+                                  value={formData.username}
+                                  className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400"
+                                  onChange={handleChange} 
+                                />
+                            </div>
+                            
+                            <div className="relative group">
+                                <FaLock className="absolute left-4 top-3.5 text-gray-400 transition group-focus-within:text-emerald-600" />
+                                <input 
+                                  type="password" 
+                                  name="password" 
+                                  placeholder="密碼" 
+                                  required 
+                                  value={formData.password}
+                                  className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400"
+                                  onChange={handleChange} 
+                                />
+                            </div>
+                        </div>
+
+                        {/* --- 註冊專用欄位 (有動畫) --- */}
+                        <AnimatePresence>
+                            {!isLoginView && (
+                                <RegisterFields formData={formData} handleChange={handleChange} />
+                            )}
+                        </AnimatePresence>
+
+                        {/* 送出按鈕 */}
+                        <button type="submit" disabled={loading}
+                            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-200/50 mt-4 transform active:scale-[0.98]">
+                            {loading ? '處理中...' : (isLoginView ? '立即登入' : '註冊帳號')}
+                        </button>
                     </form>
                 </div>
 
-                {/* Footer */}
-                {/* 根據在左側還是右側，調整 Footer 的圓角 */}
-                <div className={`p-4 border-t border-gray-100 bg-white text-center text-sm text-gray-500 flex-shrink-0 z-10 transition-all duration-500 ${isLoginView ? 'rounded-br-3xl' : 'rounded-bl-3xl'}`}>
+                {/* Footer 切換按鈕 */}
+                <div className="p-4 border-t border-gray-100 bg-white text-center text-sm text-gray-500 flex-shrink-0 z-10">
                     {isLoginView ? '還沒有帳號嗎？' : '已經有帳號了？'} 
                     <button onClick={() => setIsLoginView(!isLoginView)} className="text-emerald-600 font-bold ml-2 hover:underline transition">
                     {isLoginView ? '免費註冊' : '馬上登入'}

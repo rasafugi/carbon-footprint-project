@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 // 引入頁面與組件
-import AuthModal from './components/AuthModal';
+import AuthModal from './components/Auth/AuthModal';
 import Dashboard from './pages/Dashboard';
 import QuickEstimation from './pages/QuickEstimation';
 import LandingPage from './pages/LandingPage'; // ✨ 新增：引入我們剛剛組裝好的首頁

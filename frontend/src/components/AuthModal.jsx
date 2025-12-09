@@ -68,36 +68,26 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
       >
         
         {/* --- 左側圖片區 --- */}
-        {/* 維持 md:w-4/12 讓左側較窄，右側表單視覺延伸過來 */}
-        {/* z-20 確保角色在最上層 */}
         <div className="hidden md:flex md:w-4/12 bg-gradient-to-br from-emerald-50 to-teal-100 relative items-end justify-center z-20">
-            
-            {/* 背景光暈 */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-200/50 rounded-full blur-3xl"></div>
-            
-            {/* 角色圖片 */}
             <img 
                 src={characterImg} 
                 onError={(e) => e.target.src = PLACEHOLDER_IMG}
                 alt="Character" 
-                // --- 修改重點 ---
-                // right-[-5%]：只稍微往右偏移一點點，讓手掌剛好搭在邊界上
-                // h-[95%]：稍微縮小一點點高度，讓畫面更有呼吸感（原本 105% 可能太滿）
-                // object-contain：保持比例
-                className="absolute bottom-0 right-[-2%] h-[95%] w-auto object-contain drop-shadow-2xl pointer-events-none"
+                className="absolute bottom-0 right-[-2%] h-[100%] w-auto object-contain drop-shadow-2xl pointer-events-none"
             />
         </div>
 
         {/* --- 右側內容區 --- */}
-        {/* md:w-8/12 佔比較大，看起來像表單往左延伸 */}
-        {/* z-10 確保在角色下方 */}
         <div className="w-full md:w-8/12 flex flex-col h-full bg-white relative z-10">
             <button onClick={onClose} className="absolute top-4 right-4 z-20 text-white/90 hover:text-white bg-black/10 hover:bg-black/20 p-1.5 rounded-full transition">
                 <FaTimes size={16} />
             </button>
 
             {/* Header */}
-            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 flex-shrink-0 relative overflow-hidden">
+            {/* 修改重點：加入 rounded-t-3xl md:rounded-none md:rounded-tr-3xl */}
+            {/* 這會強制綠色背景的右上角 (手機版則是左上+右上) 變成圓角，填補白色縫隙 */}
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 flex-shrink-0 relative overflow-hidden rounded-t-3xl md:rounded-none md:rounded-tr-3xl -mr-[3px] -mt-[3px] w-[calc(100%+2px)]">
                 <div className="relative z-10 text-white pl-4">
                     <h2 className="text-2xl font-bold tracking-wide">{isLoginView ? '歡迎回來' : '建立帳戶'}</h2>
                     <p className="text-emerald-100 text-sm mt-1 opacity-90">
@@ -225,6 +215,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 </form>
             </div>
 
+            {/* Footer 已經有 rounded-br-3xl，這裡保持不變 */}
             <div className="p-4 border-t border-gray-100 bg-white text-center text-sm text-gray-500 rounded-br-3xl flex-shrink-0 z-10">
                 {isLoginView ? '還沒有帳號嗎？' : '已經有帳號了？'} 
                 <button onClick={() => setIsLoginView(!isLoginView)} className="text-emerald-600 font-bold ml-2 hover:underline transition">

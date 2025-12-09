@@ -6,7 +6,8 @@ import axios from 'axios';
 import AuthModal from './components/Auth/AuthModal';
 import Dashboard from './pages/Dashboard';
 import QuickEstimation from './pages/QuickEstimation';
-import LandingPage from './pages/LandingPage'; // ✨ 新增：引入我們剛剛組裝好的首頁
+import LandingPage from './pages/LandingPage'; 
+import DetailedAnalysis from './pages/DetailedAnalysis';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,6 +59,12 @@ function App() {
         <Route path="/quick-estimate" element={
             currentUser ? <QuickEstimation /> : <Navigate to="/" replace />
         } />
+
+        {/* ✨ 新增這行：詳細分析路由 */}
+        <Route path="/detailed-analysis" element={
+            currentUser ? <DetailedAnalysis /> : <Navigate to="/" replace />
+        } />
+
       </Routes>
 
       {/* 登入彈窗 (Global) - 保持在最外層以免被頁面切換影響 */}

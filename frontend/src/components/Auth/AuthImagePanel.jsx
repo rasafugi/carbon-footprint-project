@@ -45,7 +45,7 @@ const AuthImagePanel = ({ isLoginView }) => {
                 animate="center"
                 exit="exit"
                 custom={isLoginView}
-                transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+                transition={{ x: { type: "spring", stiffness: 450, damping: 30 }, opacity: { duration: 0.2 } }}
                 // z-50 確保圖片在最上層，蓋過表單邊緣
                 className={`absolute bottom-0 ${positionClass} h-[100%] w-auto object-contain drop-shadow-2xl pointer-events-none z-50`}
             />

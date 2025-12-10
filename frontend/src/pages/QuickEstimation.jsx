@@ -24,7 +24,7 @@ const QuickEstimation = () => {
     setLoading(true);
     try {
       // 這裡請確認 URL 與你的 Flask port 一致
-      const res = await axios.post('http://127.0.0.1:5000/api/calculate/quick', answers, { withCredentials: true });
+      const res = await axios.post('/api/calculate/quick', answers, { withCredentials: true });
       setResult(res.data);
       setStep('result');
     } catch (error) {

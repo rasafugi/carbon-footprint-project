@@ -31,7 +31,7 @@ const DetailedAnalysis = () => {
     setLoading(true);
     try {
       // 請確認後端 Port 正確 (預設 5000)
-      const res = await axios.post('http://127.0.0.1:5000/api/calculate/detailed', formData, { withCredentials: true });
+      const res = await axios.post('/api/calculate/detailed', formData, { withCredentials: true });
       setResult(res.data);
       setStep(6); // 跳轉到結果頁
     } catch (error) {

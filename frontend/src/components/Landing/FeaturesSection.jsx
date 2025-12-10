@@ -19,6 +19,9 @@ const FeaturesSection = () => {
 
   // 定義初始狀態
   const [activeIndex, setActiveIndex] = useState(2);
+  
+  // ✨ 新增：防連點狀態 (避免一次跳兩張)
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // 定義功能模組資料
   const modulesConfig = [
@@ -29,13 +32,30 @@ const FeaturesSection = () => {
     { id: "E", icon: <FaRecycle />, img: moduleEImg, color: "text-green-600" },
   ];
 
-  // 切換邏輯
-  const handleNext = () => {
+  // ✨ 優化：切換邏輯 (加入防連點與事件阻擋)
+  const handleNext = (e) => {
+    // 阻止事件冒泡 (防止點擊穿透)
+    if (e) e.stopPropagation();
+    
+    // 如果正在動畫中，則忽略點擊
+    if (isAnimating) return;
+
+    setIsAnimating(true);
     setActiveIndex((prev) => (prev + 1) % modulesConfig.length);
+    
+    // 500ms 後解鎖 (配合動畫時間)
+    setTimeout(() => setIsAnimating(false), 500);
   };
 
-  const handlePrev = () => {
+  const handlePrev = (e) => {
+    if (e) e.stopPropagation();
+    
+    if (isAnimating) return;
+
+    setIsAnimating(true);
     setActiveIndex((prev) => (prev - 1 + modulesConfig.length) % modulesConfig.length);
+    
+    setTimeout(() => setIsAnimating(false), 500);
   };
 
   // 拖曳結束處理
@@ -44,8 +64,11 @@ const FeaturesSection = () => {
     const velocity = info.velocity.x;
     const threshold = 50;
 
+    // 拖曳也需要防連點檢查
+    if (isAnimating) return;
+
     if (offset < -threshold || velocity < -500) {
-      handleNext();
+      handleNext(); // 這裡不需要傳 e，因為 handleNext 有處理 if(e)
     } else if (offset > threshold || velocity > 500) {
       handlePrev();
     }
@@ -72,7 +95,9 @@ const FeaturesSection = () => {
 
   return (
     <section id="features" className="py-20 bg-slate-100 overflow-hidden min-h-[800px] flex flex-col justify-center">
-      <div className="container mx-auto px-6 mb-10">
+      
+      {/* 標題層級 z-[60] */}
+      <div className="container mx-auto px-6 mb-10 relative z-[60]">
         <SectionTitle title={t('features.section_title')} subtitle={true} />
         <p className="text-center text-slate-600 max-w-2xl mx-auto">
           {t('features.subtitle')}
@@ -83,15 +108,18 @@ const FeaturesSection = () => {
       <div className="relative w-full h-[450px] flex justify-center items-center perspective-1000">
         
         <button 
-          onClick={handlePrev} 
-          className="absolute left-4 md:left-20 z-50 p-4 bg-white/80 rounded-full shadow-lg hover:bg-white hover:scale-110 transition text-slate-600"
+            onClick={handlePrev} 
+            // 加入 disabled 樣式，讓使用者知道現在不能點
+            disabled={isAnimating}
+            className={`absolute left-4 md:left-20 z-[60] p-4 bg-white/80 rounded-full shadow-lg transition text-slate-600 ${isAnimating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:scale-110'}`}
         >
-          <FaChevronLeft size={24} />
+            <FaChevronLeft size={24} />
         </button>
 
         <button 
             onClick={handleNext} 
-            className="absolute right-4 md:right-20 z-50 p-4 bg-white/80 rounded-full shadow-lg hover:bg-white hover:scale-110 transition text-slate-600"
+            disabled={isAnimating}
+            className={`absolute right-4 md:right-20 z-[60] p-4 bg-white/80 rounded-full shadow-lg transition text-slate-600 ${isAnimating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:scale-110'}`}
         >
             <FaChevronRight size={24} />
         </button>
@@ -106,7 +134,8 @@ const FeaturesSection = () => {
                 return (
                     <motion.div
                         key={mod.id}
-                        drag="x"
+                        // 修正：只允許中間卡片被拖曳
+                        drag={isCenter ? "x" : false}
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0.2}
                         onDragEnd={onDragEnd}
@@ -119,8 +148,16 @@ const FeaturesSection = () => {
                             filter: style.filter
                         }}
                         transition={{ duration: 0.5, type: "spring", stiffness: 100, damping: 20 }}
-                        onClick={() => { if (!isCenter) setActiveIndex(index); }}
-                        className="absolute w-[280px] md:w-[350px] bg-white rounded-3xl shadow-2xl border-2 border-white cursor-grab active:cursor-grabbing flex flex-col overflow-hidden"
+                        onClick={() => { 
+                            if (!isCenter && !isAnimating) {
+                                setIsAnimating(true);
+                                setActiveIndex(index);
+                                setTimeout(() => setIsAnimating(false), 500);
+                            }
+                        }}
+                        className={`absolute w-[280px] md:w-[350px] bg-white rounded-3xl shadow-2xl border-2 border-white flex flex-col overflow-hidden
+                            ${isCenter ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}
+                        `}
                         style={{ 
                             height: isCenter ? '450px' : '380px',
                             backgroundImage: `url(${mod.img})`,
@@ -128,8 +165,7 @@ const FeaturesSection = () => {
                             backgroundPosition: 'center',
                         }}
                     >
-                        {/* 上半部：圖片與標題 (維持原樣) */}
-                        {/* 遮罩：只在圖片區塊生效 */}
+                        {/* 遮罩 */}
                         <div className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${isCenter ? 'bg-white/85' : 'bg-white/60'}`}></div>
 
                         <div className={`relative z-10 p-6 flex flex-col items-center text-center transition-all ${isCenter ? 'justify-start pt-8 flex-shrink-0' : 'h-full justify-center'}`}>
@@ -140,18 +176,23 @@ const FeaturesSection = () => {
                             <h3 className="font-extrabold text-2xl leading-tight px-2 text-slate-900">{title}</h3>
                         </div>
 
-                        {/* 下半部：詳細內容 (白色背景 + 置中對齊) */}
+                        {/* 下半部 */}
                         <motion.div 
-                            animate={{ opacity: isCenter ? 1 : 0, height: isCenter ? 'auto' : 0 }}
-                            // ✨ 關鍵修改：
-                            // 1. 加入 bg-white (全白背景)
-                            // 2. 移除 backdrop-blur (因為背景已經是實色)
-                            // 3. 確保寬度 w-full
+                            // ✨ 修改處：加入 y (位移) 控制，並設定 transition
+                            animate={{ 
+                                opacity: isCenter ? 1 : 0, 
+                                height: isCenter ? 'auto' : 0,
+                                y: isCenter ? 0 : 20 // 未顯示時向下偏移 20px，顯示時歸零 (產生上浮效果)
+                            }}
+                            transition={{ 
+                                duration: 0.4, // 動畫時間
+                                ease: "easeOut",
+                                delay: isCenter ? 0.2 : 0 // ✨ 關鍵：變成中間卡片時，延遲 0.2 秒才顯示文字
+                            }}
                             className="relative z-10 px-6 pb-6 flex-1 flex flex-col justify-center min-h-0 bg-white w-full"
                         >
                             <ul className="space-y-3 w-full">
                                 {Array.isArray(points) && points.map((point, idx) => (
-                                    // ✨ 關鍵修改：加入 justify-center 與 text-center
                                     <li key={idx} className="flex items-center justify-center gap-2 text-slate-800 text-sm font-medium leading-relaxed text-center">
                                         <FaLeaf className="text-emerald-600 flex-shrink-0" />
                                         <span>{point}</span>
@@ -160,7 +201,7 @@ const FeaturesSection = () => {
                             </ul>
                         </motion.div>
                         
-                        {/* 非中間卡片的額外暗色遮罩 */}
+                        {/* 暗色遮罩 */}
                         {!isCenter && (
                              <div className="absolute inset-0 bg-white/40 hover:bg-transparent transition-colors z-20"></div>
                         )}
@@ -170,11 +211,17 @@ const FeaturesSection = () => {
         </AnimatePresence>
       </div>
 
-      <div className="flex justify-center gap-3 mt-8">
+      <div className="flex justify-center gap-3 mt-16 relative z-[60]">
         {modulesConfig.map((_, idx) => (
             <button
                 key={idx}
-                onClick={() => setActiveIndex(idx)}
+                onClick={() => {
+                    if (!isAnimating) {
+                        setIsAnimating(true);
+                        setActiveIndex(idx);
+                        setTimeout(() => setIsAnimating(false), 500);
+                    }
+                }}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     idx === activeIndex ? 'bg-emerald-600 w-8' : 'bg-slate-300 hover:bg-emerald-400'
                 }`}

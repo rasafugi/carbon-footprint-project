@@ -7,5 +7,12 @@ export default defineConfig({
   server: {
     host: '127.0.0.1', // 關鍵：強制綁定到 IPv4 的 127.0.0.1
     port: 5173,        // 指定 Port
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5000', // 後端的真實位置 (雲端內部)
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 })

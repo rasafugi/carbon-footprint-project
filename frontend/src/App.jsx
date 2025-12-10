@@ -33,7 +33,7 @@ function App() {
   // 2. 登出處理函式
   const handleLogout = async () => {
     try {
-      await axios.post('http://127.0.0.1:5000/api/logout', {}, { withCredentials: true });
+      await axios.post('/api/logout', {}, { withCredentials: true });
       setCurrentUser(null);
       navigate('/'); // 登出後踢回首頁
       alert("已安全登出");

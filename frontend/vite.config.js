@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5173,        // 指定 Port
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:5000', // 後端的真實位置 (雲端內部)
+        target: 'http://localhost:5000', // 後端的真實位置 (雲端內部)
         changeOrigin: true,
         secure: false,
       },

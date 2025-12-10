@@ -68,7 +68,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     setLoading(true);
     setError('');
 
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+    const API_BASE = import.meta.env.VITE_API_URL || '';
     const endpoint = isLoginView
       ? `${API_BASE}/api/login`
       : `${API_BASE}/api/register`;

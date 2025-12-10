@@ -19,7 +19,7 @@ function App() {
     const checkLoginStatus = async () => {
       try {
         // 這裡建議未來可以改成讀取環境變數: import.meta.env.VITE_API_URL
-        const res = await axios.get('http://127.0.0.1:5000/api/me', { withCredentials: true });
+        const res = await axios.get('/api/me', { withCredentials: true });
         if (res.data.is_logged_in) {
           setCurrentUser(res.data.user);
         }

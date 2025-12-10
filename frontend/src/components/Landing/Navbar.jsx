@@ -37,7 +37,7 @@ const Navbar = ({ onOpenAuth }) => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-2' : 'bg-transparent py-4'}`}>
+    <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <ScrollLink to="hero" smooth={true} duration={500} className="cursor-pointer flex items-center gap-2 text-2xl font-bold text-emerald-600">

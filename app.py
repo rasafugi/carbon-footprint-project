@@ -14,8 +14,8 @@ app = Flask(__name__)
 
 # --- 1. 設定 Session 與 安全性 ---
 app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key_change_in_production")
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = False  # 開發環境 (HTTP) 設為 False
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True  # 開發環境 (HTTP) 設為 False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_PATH'] = '/'
 

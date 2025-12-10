@@ -10,11 +10,12 @@ import TechStackSection from '../components/Landing/TechStackSection';
 import InfoSection from '../components/Landing/InfoSection';
 import Footer from '../components/Landing/Footer';
 
-const LandingPage = ({ onOpenAuth }) => {
+// ✨ 修改處：接收 user prop
+const LandingPage = ({ user, onOpenAuth }) => {
   return (
     <div className="antialiased overflow-x-hidden bg-slate-50">
-        {/* 導覽列 (需傳入開啟登入框的函式) */}
-        <Navbar onOpenAuth={onOpenAuth} />
+        {/* ✨ 修改處：將 user 傳給 Navbar */}
+        <Navbar user={user} onOpenAuth={onOpenAuth} />
         
         {/* 各個內容區塊 */}
         <HeroSection />

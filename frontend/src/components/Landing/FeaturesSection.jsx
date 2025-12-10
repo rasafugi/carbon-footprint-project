@@ -83,10 +83,10 @@ const FeaturesSection = () => {
       <div className="relative w-full h-[450px] flex justify-center items-center perspective-1000">
         
         <button 
-            onClick={handlePrev} 
-            className="absolute left-4 md:left-20 z-50 p-4 bg-white/80 rounded-full shadow-lg hover:bg-white hover:scale-110 transition text-slate-600"
+          onClick={handlePrev} 
+          className="absolute left-4 md:left-20 z-50 p-4 bg-white/80 rounded-full shadow-lg hover:bg-white hover:scale-110 transition text-slate-600"
         >
-            <FaChevronLeft size={24} />
+          <FaChevronLeft size={24} />
         </button>
 
         <button 

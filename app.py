@@ -22,7 +22,7 @@ app.config['SESSION_COOKIE_PATH'] = '/'
 # --- 2. 設定 CORS ---
 # 允許前端 (Port 5173) 跨域存取後端
 CORS(app, 
-     origins=["http://localhost:5173", "http://127.0.0.1:5173"], 
+     origins=[r"https://.*\.app\.github\.dev", "http://localhost:5173", "http://127.0.0.1:5173"], 
      supports_credentials=True,
      allow_headers=["Content-Type", "Authorization"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]

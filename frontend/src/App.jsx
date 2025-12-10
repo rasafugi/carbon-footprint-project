@@ -18,8 +18,7 @@ function App() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        // 這裡建議未來可以改成讀取環境變數: import.meta.env.VITE_API_URL
-        const res = await axios.get('http://127.0.0.1:5000/api/me', { withCredentials: true });
+        const res = await axios.get('/api/me', { withCredentials: true });
         if (res.data.is_logged_in) {
           setCurrentUser(res.data.user);
         }
@@ -33,7 +32,7 @@ function App() {
   // 2. 登出處理函式
   const handleLogout = async () => {
     try {
-      await axios.post('http://127.0.0.1:5000/api/logout', {}, { withCredentials: true });
+      await axios.post('/api/logout', {}, { withCredentials: true });
       setCurrentUser(null);
       navigate('/'); // 登出後踢回首頁
       alert("已安全登出");
@@ -45,9 +44,10 @@ function App() {
   return (
     <>
       <Routes>
-        {/* 1. 首頁路由：如果已登入，強制跳轉到 Dashboard；否則顯示 LandingPage */}
+        {/* ✨ 修改處：移除 currentUser ? <Navigate ... /> 的判斷，讓已登入者也能看首頁 */}
+        {/* 並將 currentUser 傳入 LandingPage，以便 Navbar 判斷狀態 */}
         <Route path="/" element={
-            currentUser ? <Navigate to="/dashboard" replace /> : <LandingPage onOpenAuth={() => setIsModalOpen(true)} />
+            <LandingPage user={currentUser} onOpenAuth={() => setIsModalOpen(true)} />
         } />
 
         {/* 2. 儀表板路由：受保護，沒登入會踢回首頁 */}
@@ -60,14 +60,14 @@ function App() {
             currentUser ? <QuickEstimation /> : <Navigate to="/" replace />
         } />
 
-        {/* ✨ 新增這行：詳細分析路由 */}
+        {/* 4. 詳細分析路由 */}
         <Route path="/detailed-analysis" element={
             currentUser ? <DetailedAnalysis /> : <Navigate to="/" replace />
         } />
 
       </Routes>
 
-      {/* 登入彈窗 (Global) - 保持在最外層以免被頁面切換影響 */}
+      {/* 登入彈窗 (Global) */}
       <AuthModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}

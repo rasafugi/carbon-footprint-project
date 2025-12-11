@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 # 引入我們剛剛建立的藍圖
 from routes.auth import auth_bp
 from routes.calculation import calc_bp
+from routes.stats import stats_bp
 
 # 載入環境變數
 load_dotenv()
@@ -34,6 +35,8 @@ app.register_blueprint(auth_bp, url_prefix='/api')
 
 # 將 calculation.py 的路由掛載到 /api/calculate 下 (例如: /api/calculate/quick)
 app.register_blueprint(calc_bp, url_prefix='/api/calculate')
+
+app.register_blueprint(stats_bp, url_prefix='/api/stats')
 
 # 測試用首頁
 @app.route('/')

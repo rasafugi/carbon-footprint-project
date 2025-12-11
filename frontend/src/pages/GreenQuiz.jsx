@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaBrain, FaLeaf, FaCheckCircle, FaTimesCircle, FaRedo } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next'; // ✨ 引入
-import questionsData from '../data/quizQuestions.json';
+import questionsZh from '../data/quizQuestions.json';
+import questionsEn from '../data/quizQuestions_en.json';
 
 const GreenQuiz = () => {
-  const { t } = useTranslation(); // ✨ 使用 hook
+  const { t, i18n } = useTranslation(); // 取得 i18n 物件
   const navigate = useNavigate();
 
   const [gameState, setGameState] = useState('start');
@@ -16,7 +17,9 @@ const GreenQuiz = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const startGame = () => {
-    const shuffled = [...questionsData].sort(() => 0.5 - Math.random());
+    const sourceData = i18n.language.startsWith('en') ? questionsEn : questionsZh;
+
+    const shuffled = [...sourceData].sort(() => 0.5 - Math.random());
     setCurrentQuestions(shuffled.slice(0, 10));
     setCurrentIndex(0);
     setScore(0);

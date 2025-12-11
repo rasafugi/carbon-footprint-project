@@ -127,7 +127,7 @@ const HistoryPage = () => {
                                     <FaLeaf /> {t('history.modal_suggestion')}
                                 </h4>
                                 <p className="text-emerald-700 text-sm leading-relaxed">
-                                    {selectedLog.suggestions}
+                                    {t(selectedLog.suggestions)}
                                 </p>
                             </div>
                         </div>

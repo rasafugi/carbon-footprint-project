@@ -322,5 +322,238 @@
     "msg_keep_trying": "Keep trying! Let's learn more green knowledge!",
     "btn_dashboard": "Back to Dashboard",
     "btn_retry": "Play Again"
+  },
+  "quick": {
+    "title": "Quick Carbon Estimation",
+    "q_commute": "Main mode of commute?",
+    "q_diet": "Dietary habits?",
+    "q_shopping": "Monthly shopping spend (excl. food)?",
+    "options": {
+      "scooter_gas": "Gas Scooter",
+      "scooter_electric": "Electric Scooter",
+      "car_gas": "Gas Car",
+      "car_electric": "Electric Car",
+      "public": "Public Transport",
+      "bike": "Walk / Bike",
+      "meat_heavy": "Meat Lover",
+      "balanced": "Balanced",
+      "convenience": "Convenience / Eating Out",
+      "vegetarian": "Vegetarian",
+      "low": "Frugal (< 10k)",
+      "medium": "Average (10k-30k)",
+      "high": "High (> 30k)"
+    },
+    "btn_calc": "Calculate",
+    "btn_calculating": "Calculating...",
+    "btn_retry": "Retake Quiz",
+    "result_title": "Estimated Annual Carbon Footprint",
+    "result_breakdown": "Emission Source Analysis",
+    "result_suggestion": "Carbon Reduction Suggestions",
+    "unit_year": "kgCO2e/year",
+    "labels": {
+      "transport": "Transport",
+      "diet": "Diet",
+      "consumption": "Consumption"
+    }
+  },
+  "detailed": {
+    "title": "Detailed Carbon Analysis",
+    "btn_prev": "Previous",
+    "btn_next": "Next",
+    "btn_submit": "Submit Analysis",
+    "btn_calculating": "Calculating...",
+    "btn_dashboard": "Back to Dashboard",
+    "result_title": "Detailed Annual Carbon Footprint",
+    "result_breakdown": "Emission Structure Analysis",
+    "result_suggestion": "Suggestions",
+    "unit_year": "kgCO2e/year",
+    "steps": {
+      "energy": "Module A: Household Energy (Monthly)",
+      "transport": "Module B: Transport (Monthly)",
+      "diet": "Module C: Diet Habits (Weekly)",
+      "consumption": "Module D: Consumption (Monthly)",
+      "waste": "Module E: Waste & Recycling (Weekly)"
+    },
+    "fields": {
+      "electricity": "Electricity (kWh)",
+      "gas": "Gas (m³)",
+      "water": "Water (degrees)",
+      "transport_type": "Main Transport Mode",
+      "transport_km": "Monthly Mileage (km)",
+      "diet_meat": "Meat Meals (meals/week)",
+      "diet_veg": "Veggie Meals (meals/week)",
+      "diet_grain": "Starch/Light Meals (meals/week)",
+      "cons_clothes": "Clothing/Shoes Spend ($/month)",
+      "cons_electronics": "Electronics/3C Spend ($/month)",
+      "waste_bags": "General Waste (14L bags/week)",
+      "waste_recycle": "Recycling (items/times per week)"
+    },
+    "placeholders": {
+      "electricity": "e.g., 300",
+      "gas": "e.g., 20",
+      "water": "e.g., 15",
+      "transport_km": "e.g., 500",
+      "diet_meat": "e.g., 10",
+      "diet_veg": "e.g., 5",
+      "diet_grain": "e.g., 6",
+      "cons_clothes": "e.g., 2000",
+      "cons_electronics": "e.g., 1000",
+      "waste_bags": "e.g., 2",
+      "waste_recycle": "e.g., 5"
+    },
+    "notes": {
+      "diet": "Please estimate how many meals of this type you eat per week.",
+      "waste": "Refers to the frequency or volume of properly sorted recycling."
+    },
+    "transport_options": {
+      "group_private": "Private Transport",
+      "group_public": "Public Transport",
+      "scooter_gas": "Gas Scooter",
+      "scooter_electric": "Electric Scooter",
+      "car_gas": "Gas Car",
+      "car_electric": "Electric Car",
+      "bike": "Bike / Walk (0 carbon)",
+      "bus": "Bus",
+      "mrt": "MRT / Light Rail",
+      "train": "Train (TRA)",
+      "hsr": "High Speed Rail (HSR)",
+      "airplane_domestic": "Domestic Flight"
+    },
+    "labels": {
+      "energy": "Energy",
+      "transport": "Transport",
+      "diet": "Diet",
+      "consumption": "Consumption",
+      "waste": "Waste"
+    }
+  },
+  "quick": {
+    "title": "Quick Carbon Estimation",
+    "q_commute": "Main mode of commute?",
+    "q_diet": "Dietary habits?",
+    "q_shopping": "Monthly shopping spend (excl. food)?",
+    "options": {
+      "scooter_gas": "Gas Scooter",
+      "scooter_electric": "Electric Scooter",
+      "car_gas": "Gas Car",
+      "car_electric": "Electric Car",
+      "public": "Public Transport",
+      "bike": "Walk / Bike",
+      "meat_heavy": "Meat Lover",
+      "balanced": "Balanced",
+      "convenience": "Convenience / Eating Out",
+      "vegetarian": "Vegetarian",
+      "low": "Frugal (< 10k)",
+      "medium": "Average (10k-30k)",
+      "high": "High (> 30k)"
+    },
+    "btn_calc": "Calculate",
+    "btn_calculating": "Calculating...",
+    "btn_retry": "Retake Quiz",
+    "result_title": "Estimated Annual Carbon Footprint",
+    "result_breakdown": "Emission Source Analysis",
+    "result_suggestion": "Carbon Reduction Suggestions",
+    "unit_year": "kgCO2e/year",
+    "labels": {
+      "transport": "Transport",
+      "diet": "Diet",
+      "consumption": "Consumption"
+    }
+  },
+  "detailed": {
+    "title": "Detailed Carbon Analysis",
+    "btn_prev": "Previous",
+    "btn_next": "Next",
+    "btn_submit": "Submit Analysis",
+    "btn_calculating": "Calculating...",
+    "btn_dashboard": "Back to Dashboard",
+    "result_title": "Detailed Annual Carbon Footprint",
+    "result_breakdown": "Emission Structure Analysis",
+    "result_suggestion": "Suggestions",
+    "unit_year": "kgCO2e/year",
+    "steps": {
+      "energy": "Module A: Household Energy (Monthly)",
+      "transport": "Module B: Transport (Monthly)",
+      "diet": "Module C: Diet Habits (Weekly)",
+      "consumption": "Module D: Consumption (Monthly)",
+      "waste": "Module E: Waste & Recycling (Weekly)"
+    },
+    "fields": {
+      "electricity": "Electricity (kWh)",
+      "gas": "Gas (m³)",
+      "water": "Water (degrees)",
+      "transport_type": "Main Transport Mode",
+      "transport_km": "Monthly Mileage (km)",
+      "diet_meat": "Meat Meals (meals/week)",
+      "diet_veg": "Veggie Meals (meals/week)",
+      "diet_grain": "Starch/Light Meals (meals/week)",
+      "cons_clothes": "Clothing/Shoes Spend ($/month)",
+      "cons_electronics": "Electronics/3C Spend ($/month)",
+      "waste_bags": "General Waste (14L bags/week)",
+      "waste_recycle": "Recycling (items/times per week)"
+    },
+    "placeholders": {
+      "electricity": "e.g., 300",
+      "gas": "e.g., 20",
+      "water": "e.g., 15",
+      "transport_km": "e.g., 500",
+      "diet_meat": "e.g., 10",
+      "diet_veg": "e.g., 5",
+      "diet_grain": "e.g., 6",
+      "cons_clothes": "e.g., 2000",
+      "cons_electronics": "e.g., 1000",
+      "waste_bags": "e.g., 2",
+      "waste_recycle": "e.g., 5"
+    },
+    "notes": {
+      "diet": "Please estimate how many meals of this type you eat per week.",
+      "waste": "Refers to the frequency or volume of properly sorted recycling."
+    },
+    "transport_options": {
+      "group_private": "Private Transport",
+      "group_public": "Public Transport",
+      "scooter_gas": "Gas Scooter",
+      "scooter_electric": "Electric Scooter",
+      "car_gas": "Gas Car",
+      "car_electric": "Electric Car",
+      "bike": "Bike / Walk (0 carbon)",
+      "bus": "Bus",
+      "mrt": "MRT / Light Rail",
+      "train": "Train (TRA)",
+      "hsr": "High Speed Rail (HSR)",
+      "airplane_domestic": "Domestic Flight"
+    },
+    "labels": {
+      "energy": "Energy",
+      "transport": "Transport",
+      "diet": "Diet",
+      "consumption": "Consumption",
+      "waste": "Waste"
+    }
+  },
+  "suggestions": {
+    "default": "Your lifestyle is already quite eco-friendly!",
+    "transport": {
+      "1": "High transport emissions. Try public transport once a week to save ~50kg CO2/year.",
+      "2": "Consider switching to an electric scooter to reduce commute footprint by 60%.",
+      "3": "For short trips (<2km), try walking or using YouBike. It's healthy and eco-friendly."
+    },
+    "diet": {
+      "1": "Diet is your main source. Try 'Meatless Monday' to reduce red meat intake.",
+      "2": "Choose local, seasonal food to reduce carbon emissions from food miles.",
+      "3": "Reduce bottled water. Bringing your own cup is the first step to less waste."
+    },
+    "consumption": {
+      "1": "High consumption emissions. Think 'Need' vs 'Want' before buying electronics.",
+      "2": "Try second-hand clothes or buying used goods to extend product life cycles.",
+      "3": "Support green products that provide carbon footprint labels."
+    },
+    "energy": {
+      "1": "Home energy is the top source. Replace old appliances with energy-efficient ones.",
+      "2": "Set AC to 26-28°C with a fan to significantly cut summer electricity usage."
+    },
+    "waste": {
+      "1": "Proper recycling effectively reduces carbon emissions from waste incineration."
+    }
   }
 }

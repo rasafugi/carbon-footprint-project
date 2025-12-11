@@ -148,18 +148,26 @@ def get_latest_coeffs():
 # 建議資料庫維持靜態即可，通常不需頻繁更新，若要更新邏輯同上
 SUGGESTIONS_DB = {
     "transport": [
-        "您的交通碳排較高。建議每週一天改搭捷運或公車，每年可減少約 50kg 碳排。",
-        "考慮將燃油機車汰換為電動機車，能降低約 60% 的通勤碳足跡。",
-        "短程移動（2公里內）嘗試使用 YouBike，既健康又環保。"
+        "suggestions.transport.1",
+        "suggestions.transport.2",
+        "suggestions.transport.3"
     ],
     "diet": [
-        "飲食碳排是您的主要來源。嘗試響應「週一無肉日」，減少紅肉攝取。",
-        "選擇在地當季食材，減少食物里程帶來的隱含碳排。",
-        "減少購買瓶裝水與手搖飲，自備環保杯是降低垃圾量的第一步。"
+        "suggestions.diet.1",
+        "suggestions.diet.2",
+        "suggestions.diet.3"
     ],
     "consumption": [
-        "消費碳排偏高。購買電子產品前，思考是「需要」還是「想要」。",
-        "嘗試二手衣物交換或購買二手良品，延長產品生命週期。",
-        "支持提供碳足跡標籤的綠色商品。"
+        "suggestions.consumption.1",
+        "suggestions.consumption.2",
+        "suggestions.consumption.3"
+    ],
+    # 為了防止詳細分析版報錯，也可以補上 energy 和 waste
+    "energy": [
+        "suggestions.energy.1",
+        "suggestions.energy.2"
+    ],
+    "waste": [
+        "suggestions.waste.1"
     ]
 }

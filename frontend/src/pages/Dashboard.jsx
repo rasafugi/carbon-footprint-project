@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaRocket, FaChartLine, FaSignOutAlt, FaHome } from 'react-icons/fa';
+import { FaRocket, FaChartLine, FaSignOutAlt, FaHome, FaHistory } from 'react-icons/fa';
 
 const Dashboard = ({ user, onLogout }) => {
   const navigate = useNavigate();
@@ -15,9 +15,15 @@ const Dashboard = ({ user, onLogout }) => {
         </div>
         <div className="flex items-center gap-4">
             <span className="text-slate-600 font-medium">Hi, {user?.fullName}</span>
+
+            <button onClick={() => navigate('/history')} className="flex items-center gap-1 text-slate-500 hover:text-emerald-600 transition">
+                <FaHistory /> 紀錄
+            </button>
+
             <button onClick={() => navigate('/')} className="flex items-center gap-1 text-slate-500 hover:text-emerald-600 transition">
                 <FaHome /> 首頁
             </button>
+            
             <button onClick={onLogout} className="flex items-center gap-1 text-slate-500 hover:text-red-500 transition">
                 <FaSignOutAlt /> 登出
             </button>

@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import QuickEstimation from './pages/QuickEstimation';
 import LandingPage from './pages/LandingPage'; 
 import DetailedAnalysis from './pages/DetailedAnalysis';
+import HistoryPage from './pages/HistoryPage';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,6 +64,10 @@ function App() {
         {/* 4. 詳細分析路由 */}
         <Route path="/detailed-analysis" element={
             currentUser ? <DetailedAnalysis /> : <Navigate to="/" replace />
+        } />
+
+        <Route path="/history" element={
+            currentUser ? <HistoryPage /> : <Navigate to="/" replace />
         } />
 
       </Routes>

@@ -27,7 +27,12 @@ DEFAULT_COEFFS = {
         "car_gas": 0.173,
         "car_electric": 0.050,
         "public": 0.035,
-        "bike": 0.0
+        "bike": 0.0,
+        "bus": 0.048,             # 公車/客運
+        "mrt": 0.040,             # 捷運/輕軌
+        "train": 0.060,           # 台鐵火車
+        "hsr": 0.032,             # 高鐵
+        "airplane_domestic": 0.20 # 國內班機
     },
     "diet": {
         "meat_heavy": 6.5,

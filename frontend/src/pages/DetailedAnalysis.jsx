@@ -87,12 +87,25 @@ const DetailedAnalysis = () => {
                 <span className="text-gray-700 font-medium">主要交通工具</span>
                 <select className="mt-1 block w-full rounded-xl border-gray-200 bg-gray-50 p-3 focus:bg-white focus:ring-2 focus:ring-blue-400 outline-none transition cursor-pointer"
                   value={formData.transport.type} onChange={e => updateData('transport', 'type', e.target.value)}>
-                  <option value="scooter_gas">燃油機車</option>
-                  <option value="scooter_electric">電動機車</option>
-                  <option value="car_gas">燃油汽車</option>
-                  <option value="car_electric">電動汽車</option>
-                  <option value="public">大眾運輸 (捷運/公車)</option>
-                  <option value="bike">單車/步行</option>
+                  
+                  {/* 私人運具 */}
+                  <optgroup label="私人運具">
+                    <option value="scooter_gas">燃油機車</option>
+                    <option value="scooter_electric">電動機車</option>
+                    <option value="car_gas">燃油汽車</option>
+                    <option value="car_electric">電動汽車</option>
+                    <option value="bike">單車/步行 (0 碳排)</option>
+                  </optgroup>
+
+                  {/* ✨ 新增：大眾運輸細項 */}
+                  <optgroup label="大眾運輸">
+                    <option value="bus">公車 / 客運</option>
+                    <option value="mrt">捷運 / 輕軌</option>
+                    <option value="train">台鐵火車</option>
+                    <option value="hsr">台灣高鐵</option>
+                    <option value="airplane_domestic">國內飛機 (離島/花東)</option>
+                  </optgroup>
+
                 </select>
               </label>
               <label className="block">

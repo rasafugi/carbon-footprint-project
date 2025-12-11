@@ -46,3 +46,54 @@ input, textarea {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #9ca3af; /* 滑鼠經過變深 */
 }
+
+/* 定義垂直向上捲動的動畫 */
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    /* 移動到列表的一半高度，配合重複的列表項目實現無縫循環 */
+    transform: translateY(-50%);
+  }
+}
+
+/* 應用動畫的類別 */
+.animate-scroll-up {
+  /* 持續時間 30s，線性速度，無限循環 */
+  animation: scrollUp 40s linear infinite;
+}
+
+/* 當有卡片被選中時，暫停動畫 */
+.paused {
+  animation-play-state: paused;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 文字陰影增強閱讀性 */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* 隱藏捲軸但保持功能 (針對輪播容器) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

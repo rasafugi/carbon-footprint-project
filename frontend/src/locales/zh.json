@@ -15,13 +15,6 @@
     "subtitle": "個人碳排放檢測平台 —— 用科技讓「碳排」變容易理解，從意識到改變的每一步。",
     "cta": "探索專題理念"
   },
-  "hero": {
-    "title_1": "看見你的生活，",
-    "title_2": "對地球的",
-    "title_suffix": "真實影響。",
-    "subtitle": "個人碳排放檢測平台 —— 用科技讓「碳排」變容易理解，從意識到改變的每一步。",
-    "cta": "探索專題理念"
-  },
   "background": {
     "section_title": "專題背景與設計理念",
     "why_title": "為何需要個人碳排放檢測？",
@@ -302,6 +295,7 @@
     "title": "台灣區域碳排大數據",
     "label_city": "選擇縣市",
     "label_district": "選擇行政區 (選填)",
+    "option_all_cities": "全台統計",
     "option_all_districts": "全區統計",
     "btn_query": "查詢數據",
     "loading": "數據分析中...",

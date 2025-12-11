@@ -9,24 +9,29 @@ def get_regional_stats():
     city = request.args.get('city')
     district = request.args.get('district')
 
-    if not city:
-        return jsonify({"error": "請選擇縣市"}), 400
+    # ✨ 修改 1：不再強制檢查 city
+    # if not city: return jsonify({"error": "請選擇縣市"}), 400
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     try:
-        # 1. 構建 SQL 查詢
-        # 我們需要 JOIN users 表 (拿地區) 和 carbon_logs 表 (拿碳排數據)
+        # ✨ 修改 2：使用動態 SQL 組裝
+        # WHERE 1=1 是一個常用的技巧，方便後面動態串接 AND
         query = """
             SELECT l.total_carbon, l.breakdown, l.log_type
             FROM carbon_logs l
             JOIN users u ON l.user_id = u.id
-            WHERE u.city = %s
+            WHERE 1=1
         """
-        params = [city]
+        params = []
 
-        # 如果有選行政區，就多加一個篩選條件
+        # 如果有指定城市，才加入篩選條件
+        if city:
+            query += " AND u.city = %s"
+            params.append(city)
+
+        # 如果有指定行政區，才加入篩選條件
         if district:
             query += " AND u.district = %s"
             params.append(district)
@@ -43,7 +48,7 @@ def get_regional_stats():
                 "top_source": "無資料"
             })
 
-        # 3. Python 端計算統計數據
+        # 3. Python 端計算統計數據 (邏輯保持不變)
         total_sum = 0
         breakdown_sums = {}
         valid_count = 0
@@ -52,9 +57,7 @@ def get_regional_stats():
             total_sum += log['total_carbon']
             valid_count += 1
             
-            # 解析 JSON breakdown
             try:
-                # 資料庫取出的可能是 dict 或 str (視 driver 而定)
                 bd = log['breakdown']
                 if isinstance(bd, str):
                     bd = json.loads(bd)
@@ -64,11 +67,9 @@ def get_regional_stats():
             except:
                 continue
 
-        # 計算平均
         avg_total = round(total_sum / valid_count, 1)
         avg_breakdown = {k: round(v / valid_count, 1) for k, v in breakdown_sums.items()}
 
-        # 找出最高排放源 (將英文轉中文)
         source_map = {
             "transport": "交通", "diet": "飲食", "energy": "能源", 
             "consumption": "消費", "waste": "廢棄物"
@@ -77,7 +78,6 @@ def get_regional_stats():
         top_source_key = max(avg_breakdown, key=avg_breakdown.get) if avg_breakdown else "無"
         top_source_zh = source_map.get(top_source_key, top_source_key)
 
-        # 準備圖表需要的陣列格式 (Recharts 用)
         chart_data = [
             {"name": source_map.get(k, k), "value": v} 
             for k, v in avg_breakdown.items()

@@ -294,6 +294,7 @@
     "title": "Regional Carbon Data",
     "label_city": "Select City",
     "label_district": "Select District (Optional)",
+    "option_all_cities": "All Taiwan",
     "option_all_districts": "All Districts",
     "btn_query": "Query Data",
     "loading": "Analyzing data...",

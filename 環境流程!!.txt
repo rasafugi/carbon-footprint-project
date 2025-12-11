@@ -1,0 +1,7 @@
+sudo service mysql start
+
+cd frontend
+npm run dev
+
+source venv/bin/activate
+python app.py

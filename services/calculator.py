@@ -1,10 +1,12 @@
 # services/calculator.py
-from .carbon_data import TAIWAN_COEFFS, SUGGESTIONS_DB
+from .carbon_data import get_latest_coeffs, SUGGESTIONS_DB
 
 def calculate_quick_footprint(data):
     """
     快速估算邏輯 (保持不變)
     """
+    TAIWAN_COEFFS = get_latest_coeffs()
+
     # 1. 交通計算
     AVG_COMMUTE_KM_YEAR = 20 * 250 
     transport_coeff = TAIWAN_COEFFS["transport"].get(data.get("commute"), 0.046)
@@ -52,7 +54,7 @@ def calculate_detailed_footprint(data):
         "waste": { "bags": 10, "recycle": 5 }                     # 週垃圾量
     }
     """
-    
+    TAIWAN_COEFFS = get_latest_coeffs()
     # 1. 能源 (Module A) - 年化計算
     # 係數：電力 0.495 kg/度, 水 0.15 kg/度, 瓦斯 2.1 kg/m3 (概抓)
     elec_total = float(data['energy']['electricity']) * 12 * 0.495

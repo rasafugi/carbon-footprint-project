@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { FaLeaf, FaCarSide, FaUtensils, FaShoppingBag, FaRecycle, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiLightBulb } from "react-icons/hi";
 
-// 引入共用組件
+// 引入共用組件與動畫
 import SectionTitle from './SectionTitle';
+import { fadeUpVariants } from '../../utils/motion'; // ✨ 引入動畫參數
 
 // 引入背景圖片
 import moduleAImg from '../../assets/modules-A.png';
@@ -19,8 +20,6 @@ const FeaturesSection = () => {
 
   // 定義初始狀態
   const [activeIndex, setActiveIndex] = useState(2);
-  
-  // ✨ 新增：防連點狀態 (避免一次跳兩張)
   const [isAnimating, setIsAnimating] = useState(false);
 
   // 定義功能模組資料
@@ -32,49 +31,38 @@ const FeaturesSection = () => {
     { id: "E", icon: <FaRecycle />, img: moduleEImg, color: "text-green-600" },
   ];
 
-  // ✨ 優化：切換邏輯 (加入防連點與事件阻擋)
   const handleNext = (e) => {
-    // 阻止事件冒泡 (防止點擊穿透)
     if (e) e.stopPropagation();
-    
-    // 如果正在動畫中，則忽略點擊
     if (isAnimating) return;
 
     setIsAnimating(true);
     setActiveIndex((prev) => (prev + 1) % modulesConfig.length);
-    
-    // 500ms 後解鎖 (配合動畫時間)
     setTimeout(() => setIsAnimating(false), 500);
   };
 
   const handlePrev = (e) => {
     if (e) e.stopPropagation();
-    
     if (isAnimating) return;
 
     setIsAnimating(true);
     setActiveIndex((prev) => (prev - 1 + modulesConfig.length) % modulesConfig.length);
-    
     setTimeout(() => setIsAnimating(false), 500);
   };
 
-  // 拖曳結束處理
   const onDragEnd = (event, info) => {
     const offset = info.offset.x;
     const velocity = info.velocity.x;
     const threshold = 50;
 
-    // 拖曳也需要防連點檢查
     if (isAnimating) return;
 
     if (offset < -threshold || velocity < -500) {
-      handleNext(); // 這裡不需要傳 e，因為 handleNext 有處理 if(e)
+      handleNext();
     } else if (offset > threshold || velocity > 500) {
       handlePrev();
     }
   };
 
-  // 計算卡片樣式
   const getCardStyle = (index) => {
     const total = modulesConfig.length;
     let offset = (index - activeIndex + total) % total;
@@ -96,20 +84,32 @@ const FeaturesSection = () => {
   return (
     <section id="features" className="py-20 bg-slate-100 overflow-hidden min-h-[800px] flex flex-col justify-center">
       
-      {/* 標題層級 z-[60] */}
+      {/* 標題層級 */}
       <div className="container mx-auto px-6 mb-10 relative z-[60]">
         <SectionTitle title={t('features.section_title')} subtitle={true} />
-        <p className="text-center text-slate-600 max-w-2xl mx-auto">
+        {/* ✨ 動畫效果：副標題 */}
+        <motion.p 
+          variants={fadeUpVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center text-slate-600 max-w-2xl mx-auto"
+        >
           {t('features.subtitle')}
-        </p>
+        </motion.p>
       </div>
 
-      {/* --- 輪播容器 --- */}
-      <div className="relative w-full h-[450px] flex justify-center items-center perspective-1000">
+      {/* --- 輪播容器 (加上進場動畫) --- */}
+      <motion.div 
+        variants={fadeUpVariants} // ✨ 動畫效果：整個輪播區塊
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="relative w-full h-[450px] flex justify-center items-center perspective-1000"
+      >
         
         <button 
             onClick={handlePrev} 
-            // 加入 disabled 樣式，讓使用者知道現在不能點
             disabled={isAnimating}
             className={`absolute left-4 md:left-20 z-[60] p-4 bg-white/80 rounded-full shadow-lg transition text-slate-600 ${isAnimating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:scale-110'}`}
         >
@@ -134,7 +134,6 @@ const FeaturesSection = () => {
                 return (
                     <motion.div
                         key={mod.id}
-                        // 修正：只允許中間卡片被拖曳
                         drag={isCenter ? "x" : false}
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={0.2}
@@ -178,16 +177,15 @@ const FeaturesSection = () => {
 
                         {/* 下半部 */}
                         <motion.div 
-                            // ✨ 修改處：加入 y (位移) 控制，並設定 transition
                             animate={{ 
                                 opacity: isCenter ? 1 : 0, 
                                 height: isCenter ? 'auto' : 0,
-                                y: isCenter ? 0 : 20 // 未顯示時向下偏移 20px，顯示時歸零 (產生上浮效果)
+                                y: isCenter ? 0 : 20 
                             }}
                             transition={{ 
-                                duration: 0.4, // 動畫時間
+                                duration: 0.4, 
                                 ease: "easeOut",
-                                delay: isCenter ? 0.2 : 0 // ✨ 關鍵：變成中間卡片時，延遲 0.2 秒才顯示文字
+                                delay: isCenter ? 0.2 : 0 
                             }}
                             className="relative z-10 px-6 pb-6 flex-1 flex flex-col justify-center min-h-0 bg-white w-full"
                         >
@@ -201,7 +199,6 @@ const FeaturesSection = () => {
                             </ul>
                         </motion.div>
                         
-                        {/* 暗色遮罩 */}
                         {!isCenter && (
                              <div className="absolute inset-0 bg-white/40 hover:bg-transparent transition-colors z-20"></div>
                         )}
@@ -209,9 +206,16 @@ const FeaturesSection = () => {
                 );
             })}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
-      <div className="flex justify-center gap-3 mt-16 relative z-[60]">
+      {/* ✨ 動畫效果：下方分頁點 */}
+      <motion.div 
+        variants={fadeUpVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex justify-center gap-3 mt-16 relative z-[60]"
+      >
         {modulesConfig.map((_, idx) => (
             <button
                 key={idx}
@@ -227,7 +231,7 @@ const FeaturesSection = () => {
                 }`}
             />
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };

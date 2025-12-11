@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaArrowLeft, FaLeaf, FaCalendarAlt, FaTimes, FaChartPie } from 'react-icons/fa';
+import { FaArrowLeft, FaLeaf, FaCalendarAlt, FaTimes, FaChartPie, FaGlobe } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next'; // ✨ 引入
 
 const HistoryPage = () => {
-  const { t } = useTranslation(); // ✨ 使用 hook
+  const { t, i18n } = useTranslation(); // ✨ 使用 hook
   const navigate = useNavigate();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedLog, setSelectedLog] = useState(null);
+  const toggleLanguage = () => {
+    const newLang = i18n.language.startsWith('zh') ? 'en' : 'zh';
+    i18n.changeLanguage(newLang);
+  };
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -37,11 +41,22 @@ const HistoryPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
-            <button onClick={() => navigate('/dashboard')} className="p-2 bg-white rounded-full shadow hover:bg-gray-100 transition text-slate-500">
-                <FaArrowLeft />
+        <div className="flex justify-between items-center mb-8"> {/* ✨ 改用 justify-between */}
+            <div className="flex items-center gap-4">
+                <button onClick={() => navigate('/dashboard')} className="p-2 bg-white rounded-full shadow hover:bg-gray-100 transition text-slate-500">
+                    <FaArrowLeft />
+                </button>
+                <h1 className="text-2xl font-bold text-slate-800">{t('history.title')}</h1>
+            </div>
+
+            {/* ✨ 右上角語言切換 */}
+            <button 
+                onClick={toggleLanguage} 
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm text-slate-600 hover:text-emerald-600 transition font-medium"
+            >
+                <FaGlobe />
+                <span>{i18n.language.startsWith('zh') ? 'EN' : '中'}</span>
             </button>
-            <h1 className="text-2xl font-bold text-slate-800">{t('history.title')}</h1>
         </div>
 
         {loading ? (

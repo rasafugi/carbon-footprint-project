@@ -3,21 +3,30 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// 引入剛剛建立的翻譯檔
+// 引入翻譯檔
 import enJSON from './locales/en.json';
 import zhJSON from './locales/zh.json';
 
 i18n
-  .use(LanguageDetector) // 自動偵測使用者語言
+  .use(LanguageDetector) // 使用語言偵測
   .use(initReactI18next) // 整合 React
   .init({
     resources: {
       en: { translation: enJSON },
       zh: { translation: zhJSON }
     },
-    fallbackLng: 'zh', // 預設語言為中文
+    fallbackLng: 'zh', // 若偵測失敗，預設回中文
+    
+    // ✨ 新增：強化偵測設定
+    detection: {
+      // 偵測順序：先看 localStorage，再看瀏覽器設定
+      order: ['localStorage', 'navigator'],
+      // 這裡指定將語言快取到 localStorage
+      caches: ['localStorage'], 
+    },
+    
     interpolation: {
-      escapeValue: false // React 已經有防 XSS，所以這裡設為 false
+      escapeValue: false 
     }
   });
 

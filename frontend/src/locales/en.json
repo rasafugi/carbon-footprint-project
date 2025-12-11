@@ -5,7 +5,8 @@
     "ux_design": "UX Design",
     "tech": "Tech Stack",
     "value": "Social Value",
-    "login_register": "Login / Register"
+    "login_register": "Login / Register",
+    "my_dashboard": "My Dashboard"
   },
   "hero": {
     "title_1": "Visualize Your Life's",

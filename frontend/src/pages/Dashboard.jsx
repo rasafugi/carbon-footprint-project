@@ -3,13 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // ✨ 引入
 import {
     FaRocket, FaChartLine, FaSignOutAlt, FaArrowRight,
-    FaHistory, FaMapMarkedAlt, FaBrain, FaLeaf, FaQuoteLeft, FaHome
+    FaHistory, FaMapMarkedAlt, FaBrain, FaLeaf, FaQuoteLeft, FaHome, FaGlobe // ✨ 加入 FaGlobe
 } from 'react-icons/fa';
 import bgImage from '../assets/dashboard-bg.jpg'; 
 
 const Dashboard = ({ user, onLogout }) => {
-  const { t } = useTranslation(); // ✨ 使用 hook
-  const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
+  
+  // ✨ 切換語言函式
+  const toggleLanguage = () => {
+    const newLang = i18n.language.startsWith('zh') ? 'en' : 'zh';
+    i18n.changeLanguage(newLang);
+  };
   const [activeCard, setActiveCard] = useState(null);
 
   // 新增：記錄卡片點擊時的座標與目標位置
@@ -172,15 +178,21 @@ const Dashboard = ({ user, onLogout }) => {
             <h1 className="text-2xl font-bold text-white tracking-wide">CarbonTrace</h1>
         </div>
         <div className="flex items-center gap-6 text-white/80">
-            <span className="font-medium hidden md:inline tracking-wider">Hi, {user?.fullName}</span>
-            <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-1 rounded-full border border-emerald-500/30">
-                {t('dashboard.member_center')}
+            {/* ✨ 修改處 1: 歡迎詞 (Hi, 使用者) */}
+            <span className="font-medium hidden md:inline tracking-wider">
+                {t('auth.welcome')}, {user?.fullName}
             </span>
+
+            <button onClick={toggleLanguage} className="flex items-center gap-2 hover:text-white transition opacity-70 hover:opacity-100">
+                <FaGlobe /> <span className="text-sm">{i18n.language.startsWith('zh') ? 'EN' : '中'}</span>
+            </button>
             
+            {/* ✨ 修改處 2: 首頁按鈕 */}
             <button onClick={() => navigate('/')} className="flex items-center gap-2 hover:text-white transition opacity-70 hover:opacity-100">
                 <FaHome /> <span className="text-sm">{t('dashboard.home')}</span>
             </button>
 
+            {/* ✨ 修改處 3: 登出按鈕 */}
             <button onClick={onLogout} className="flex items-center gap-2 hover:text-white transition opacity-70 hover:opacity-100">
                 <FaSignOutAlt /> <span className="text-sm">{t('dashboard.logout')}</span>
             </button>

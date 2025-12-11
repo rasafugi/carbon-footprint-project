@@ -79,7 +79,7 @@ const Navbar = ({ user, onOpenAuth }) => {
                 className="bg-emerald-100 text-emerald-700 px-6 py-2 rounded-full hover:bg-emerald-200 transition shadow-sm font-bold ml-4 flex items-center gap-2"
              >
                 <FaUserCircle />
-                我的儀表板
+                {t('nav.my_dashboard')}
              </button>
           ) : (
              <button 
@@ -132,7 +132,8 @@ const Navbar = ({ user, onOpenAuth }) => {
                   onClick={() => { navigate('/dashboard'); setIsOpen(false); }}
                   className="w-full bg-emerald-100 text-emerald-700 py-3 rounded-xl font-bold shadow-sm flex items-center justify-center gap-2"
                >
-                  <FaUserCircle /> 我的儀表板
+                  <FaUserCircle /> 
+                  {t('nav.my_dashboard')}
                </button>
             ) : (
                <button 

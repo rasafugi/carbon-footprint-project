@@ -5,7 +5,8 @@
     "ux_design": "UX 設計",
     "tech": "技術",
     "value": "社會價值",
-    "login_register": "登入 / 註冊"
+    "login_register": "登入 / 註冊",
+    "my_dashboard": "我的儀表板"
   },
   "hero": {
     "title_1": "看見你的生活，",

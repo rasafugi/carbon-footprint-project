@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaCar, FaUtensils, FaShoppingBag, FaArrowLeft, FaLeaf } from 'react-icons/fa';
+import { FaCar, FaUtensils, FaShoppingBag, FaArrowLeft, FaLeaf, FaGlobe } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next'; // ✨ 引入
 
 const QuickEstimation = () => {
-  const { t } = useTranslation(); // ✨ 使用 hook
+  const { t, i18n } = useTranslation(); // ✨ 使用 hook
   const navigate = useNavigate();
   const [step, setStep] = useState('form'); 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   
+  const toggleLanguage = () => {
+    const newLang = i18n.language.startsWith('zh') ? 'en' : 'zh';
+    i18n.changeLanguage(newLang);
+  };
+
   const [answers, setAnswers] = useState({
     commute: 'scooter_gas',
     diet: 'balanced',
@@ -53,11 +58,22 @@ const QuickEstimation = () => {
     <div className="min-h-screen bg-slate-50 py-12 px-6">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-            <button onClick={() => navigate('/dashboard')} className="p-2 bg-white rounded-full shadow hover:bg-gray-100">
-                <FaArrowLeft />
+        <div className="flex justify-between items-center mb-8"> {/* ✨ 改用 justify-between */}
+            <div className="flex items-center gap-4">
+                <button onClick={() => navigate('/dashboard')} className="p-2 bg-white rounded-full shadow hover:bg-gray-100 transition text-slate-500">
+                    <FaArrowLeft />
+                </button>
+                <h1 className="text-2xl font-bold text-slate-800">{t('history.title')}</h1>
+            </div>
+
+            {/* ✨ 右上角語言切換 */}
+            <button 
+                onClick={toggleLanguage} 
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm text-slate-600 hover:text-emerald-600 transition font-medium"
+            >
+                <FaGlobe />
+                <span>{i18n.language.startsWith('zh') ? 'EN' : '中'}</span>
             </button>
-            <h1 className="text-2xl font-bold text-slate-800">{t('quick.title')}</h1>
         </div>
 
         {step === 'form' ? (

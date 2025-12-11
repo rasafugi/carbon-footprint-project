@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaBrain, FaLeaf, FaCheckCircle, FaTimesCircle, FaRedo } from 'react-icons/fa';
+import { FaArrowLeft, FaBrain, FaLeaf, FaCheckCircle, FaTimesCircle, FaRedo, FaGlobe } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next'; // ✨ 引入
 import questionsZh from '../data/quizQuestions.json';
 import questionsEn from '../data/quizQuestions_en.json';
@@ -15,6 +15,11 @@ const GreenQuiz = () => {
   const [score, setScore] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language.startsWith('zh') ? 'en' : 'zh';
+    i18n.changeLanguage(newLang);
+  };
 
   const startGame = () => {
     const sourceData = i18n.language.startsWith('en') ? questionsEn : questionsZh;
@@ -50,13 +55,26 @@ const GreenQuiz = () => {
   if (gameState === 'start') {
     return (
       <div className="min-h-screen bg-emerald-50/50 py-12 px-6 flex flex-col items-center">
-        <div className="w-full max-w-2xl flex items-center gap-4 mb-12">
-            <button onClick={() => navigate('/dashboard')} className="p-2 bg-white rounded-full shadow hover:bg-gray-100 transition text-slate-500">
-                <FaArrowLeft />
+        <div className="w-full max-w-2xl flex justify-between items-center mb-12">
+            
+            {/* 左側群組：返回按鈕 + 標題 */}
+            <div className="flex items-center gap-4">
+                <button onClick={() => navigate('/dashboard')} className="p-2 bg-white rounded-full shadow hover:bg-gray-100 transition text-slate-500">
+                    <FaArrowLeft />
+                </button>
+                <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <FaLeaf className="text-emerald-600"/> {t('quiz.title')}
+                </h1>
+            </div>
+
+            {/* 右側：語言切換按鈕 */}
+            <button 
+                onClick={toggleLanguage} 
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm text-slate-600 hover:text-emerald-600 transition font-medium"
+            >
+                <FaGlobe />
+                <span>{i18n.language.startsWith('zh') ? 'EN' : '中'}</span>
             </button>
-            <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <FaLeaf className="text-emerald-600"/> {t('quiz.title')}
-            </h1>
         </div>
 
         <div className="bg-white p-10 rounded-3xl shadow-xl max-w-2xl w-full text-center border-t-8 border-yellow-400">

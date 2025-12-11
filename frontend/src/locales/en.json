@@ -345,7 +345,7 @@
     "fields": {
       "electricity": "Electricity (kWh)",
       "gas": "Gas (m³)",
-      "water": "Water (degrees)",
+      "water": "Water (m³)",
       "transport_type": "Main Transport Mode",
       "transport_km": "Monthly Mileage (km)",
       "diet_meat": "Meat Meals (meals/week)",
@@ -365,7 +365,7 @@
       "diet_veg": "e.g., 5",
       "diet_grain": "e.g., 6",
       "cons_clothes": "e.g., 2000",
-      "cons_electronics": "e.g., 1000",
+      "cons_electronics": "e.g., 1000 (Divide total price by months of use)", 
       "waste_bags": "e.g., 2",
       "waste_recycle": "e.g., 5"
     },

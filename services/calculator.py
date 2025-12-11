@@ -57,9 +57,14 @@ def calculate_detailed_footprint(data):
     TAIWAN_COEFFS = get_latest_coeffs()
     # 1. 能源 (Module A) - 年化計算
     # 係數：電力 0.495 kg/度, 水 0.15 kg/度, 瓦斯 2.1 kg/m3 (概抓)
-    elec_total = float(data['energy']['electricity']) * 12 * 0.495
-    water_total = float(data['energy']['water']) * 12 * 0.15
-    gas_total = float(data['energy']['gas']) * 12 * 2.1
+    elec_coeff = TAIWAN_COEFFS['energy']['electricity']
+    water_coeff = TAIWAN_COEFFS['energy']['water'] # 從 0.15 變成變數
+    gas_coeff = TAIWAN_COEFFS['energy']['gas']
+    
+    elec_total = float(data['energy']['electricity']) * 12 * elec_coeff
+    water_total = float(data['energy']['water']) * 12 * water_coeff
+    gas_total = float(data['energy']['gas']) * 12 * gas_coeff
+    
     energy_sum = elec_total + water_total + gas_total
 
     # 2. 交通 (Module B) - 年化

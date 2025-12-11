@@ -9,8 +9,9 @@ import time
 # ==========================================
 # 請將此網址換成你放在網路上的 JSON Raw URL
 # 範例：GitHub Gist 的 Raw 連結
-DATA_SOURCE_URL = "https://gist.githubusercontent.com/你的帳號/你的GistID/raw/carbon_data.json"
-ENERGY_CSV_URL = "https://www.taipower.com.tw/d006/loadFile.aspx?ty=l&did=49"
+DATA_SOURCE_URL = "https://gist.githubusercontent.com/rasafugi/341375417c0ac852a67959f388b53b14/raw/carbon_data.json"
+
+ENERGY_CSV_URL = "https://service.taipower.com.tw/data/opendata/apply/file/d061001/001.csv"
 
 # 更新頻率 (秒) - 這裡設定為 1 小時 (3600秒) 更新一次
 UPDATE_INTERVAL = 3600 
@@ -40,7 +41,9 @@ DEFAULT_COEFFS = {
         "high": 0.9
     },
     "energy": {
-        "electricity": 0.495
+        "electricity": 0.495,
+        "water": 0.150,       # ✨ 新增：自來水係數 (台水 2024)
+        "gas": 2.63
     }
 }
 
@@ -103,34 +106,37 @@ def get_latest_coeffs():
     3. 若下載失敗 -> 回傳預設值 (系統穩)
     """
     global _cache, _last_update_time
-    
     current_time = time.time()
     
-    # 檢查是否需要更新
     if _cache is None or (current_time - _last_update_time > UPDATE_INTERVAL):
-        print("🔄 開始更新所有碳排係數...")
-        
-        # 1. 先載入預設值當作基底 (避免更新失敗開天窗)
+        print("🔄 開始更新碳排係數...")
         new_data = DEFAULT_COEFFS.copy()
         
-        # 2. 嘗試更新能源數據 (從台電)
-        energy_val = fetch_energy_coefficient()
-        if energy_val:
-            new_data['energy']['electricity'] = energy_val
+        # 1. 更新電力 (Live Data)
+        elec_val = fetch_energy_coefficient()
+        if elec_val:
+            new_data['energy']['electricity'] = elec_val
             
-        # 3. 嘗試更新其他數據 (從你的 GitHub Gist，如果有的話)
-        # try:
-        #     resp = requests.get(DATA_SOURCE_URL, timeout=3)
-        #     if resp.status_code == 200:
-        #         gist_data = resp.json()
-        #         new_data.update(gist_data) # 合併 Gist 資料
-        # except:
-        #     pass
+        # 2. 更新水與瓦斯 (如果有 Gist API 則從那邊抓，否則維持預設)
+        # 實作概念：你的 Gist JSON 應該包含 {"energy": {"water": 0.152, "gas": 2.1}}
+        try:
+            # 只有當你有真的 Gist URL 時才打開這段
+            resp = requests.get(DATA_SOURCE_URL, timeout=3)
+            if resp.status_code == 200:
+                 remote_data = resp.json()
+                 # 智慧合併：只更新有的欄位
+                 if 'energy' in remote_data:
+                     if 'water' in remote_data['energy']:
+                         new_data['energy']['water'] = remote_data['energy']['water']
+                     if 'gas' in remote_data['energy']:
+                         new_data['energy']['gas'] = remote_data['energy']['gas']
+            pass # 暫時跳過
+        except Exception as e:
+            print(f"⚠️ 雲端參數更新失敗: {e}")
 
-        # 更新快取
         _cache = new_data
         _last_update_time = current_time
-        print("✅ 數據更新完成")
+        print("✅ 係數更新完成")
     
     return _cache
 

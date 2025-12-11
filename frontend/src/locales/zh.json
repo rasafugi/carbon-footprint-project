@@ -28,7 +28,23 @@
     "switch_to_register": "還沒有帳號嗎？",
     "switch_to_login": "已經有帳號了？",
     "register_link": "免費註冊",
-    "login_link": "馬上登入"
+    "login_link": "馬上登入",
+    "gender_label": "性別",
+    "gender_male": "男",
+    "gender_female": "女",
+    "gender_other": "其他",
+    "gender_specify": "請輸入",
+    "strength_label": "強度：",
+    "strength_weak": "弱",
+    "strength_medium": "中等",
+    "strength_strong": "強",
+    "tip_prefix": "💡 建議：",
+    "tip_length": "增加長度",
+    "tip_number": "加入數字",
+    "tip_symbol": "加入符號",
+    "tip_letter": "加入英文",
+    "error_generic": "發生錯誤，請稍後再試",
+    "success_register": "註冊成功！請登入。"
   },
   "background": {
     "section_title": "專題背景與設計理念",
@@ -192,5 +208,119 @@
   "footer": {
     "project_info": "資訊工程系畢業專題 —— 個人碳排放檢測平台",
     "copyright": "© {{year}} All rights reserved. 用科技為地球盡一份心力。"
+  },
+  "dashboard": {
+    "member_center": "會員中心",
+    "logout": "登出",
+    "home": "首頁",
+    "banner_tag": "2025 淨零轉型計畫",
+    "main_title_1": "你的淨零生活",
+    "main_title_2": "從這裡開始",
+    "main_desc": "CarbonTrace 提供全方位的工具，協助您從數據認知到行動改變。請瀏覽下方功能並開始體驗。",
+    "feature_gallery": "FEATURE GALLERY",
+    "btn_enter": "進入功能",
+    "btn_start": "立即開始",
+    "btn_open": "開啟功能",
+    "label_usage": "功能用途",
+    "label_philosophy": "設計初衷",
+    "label_ready": "準備好開始了嗎？",
+    "tool_info": "TOOL INFO",
+    
+    "cards": {
+      "quick": {
+        "title": "快速估算版",
+        "usage": "適合生活忙碌的現代人。僅需 30 秒，回答 3 個生活選擇題，立即取得您的年度碳排概況。",
+        "philosophy": "我們相信「門檻低」是改變的第一步。不需翻找帳單，從大方向建立您的碳直覺。"
+      },
+      "detailed": {
+        "title": "詳細分析版",
+        "usage": "輸入電費單、瓦斯度數、里程數等精確數據，系統將依據台灣最新係數，產出研究級報告。",
+        "philosophy": "數據是改變的基石。透過精確盤查 (LCA)，找出隱藏在生活細節中的高碳排熱點。"
+      },
+      "history": {
+        "title": "歷史紀錄",
+        "usage": "您的數位環保存摺。系統自動儲存每一次計算結果，繪製出長期趨勢圖表。",
+        "philosophy": "減碳不是一時的熱情，而是長期的堅持。看見數據下降的軌跡，是最大的成就感來源。"
+      },
+      "regional": {
+        "title": "區域數據地圖",
+        "usage": "大數據儀表板。探索您所在縣市的平均碳排，並與全國平均值進行比較。",
+        "philosophy": "個人與群體的連結。透過地理資訊，我們能看見城市能源結構的差異，推動在地化的氣候行動。"
+      },
+      "quiz": {
+        "title": "綠能智商測驗",
+        "usage": "隨機抽取 10 題環保知識快問快答。挑戰您的綠能知識庫，累積積分。",
+        "philosophy": "知識就是力量。透過遊戲化 (Gamification) 的學習，讓艱澀的能源知識變得有趣且易於吸收。"
+      }
+    },
+    "narrative": {
+      "vision": {
+        "title": "看見無形的足跡",
+        "text": "碳排放是無色無味的，但它的影響卻真實存在。透過 CarbonTrace，我們將抽象的數據轉化為可視化的圖表，讓您第一次真正「看見」生活對地球的影響。"
+      },
+      "action": {
+        "title": "從數據到行動",
+        "text": "知道數字只是第一步。我們提供客製化的減碳建議，從飲食調整到交通選擇，協助您在不降低生活品質的前提下，做出對環境更友善的決策。"
+      },
+      "impact": {
+        "title": "匯聚微小的力量",
+        "text": "一個人的改變或許渺小，但一群人的堅持就能改變世界。透過區域數據與歷史追蹤，我們連結每一個減碳的努力，共同邁向 2050 淨零目標。"
+      }
+    }
+  },
+  "history": {
+    "title": "歷史碳排紀錄",
+    "loading": "載入中...",
+    "empty_msg": "目前還沒有任何紀錄喔！",
+    "btn_first_calc": "去計算第一筆",
+    "type_detailed": "詳細分析",
+    "type_quick": "快速估算",
+    "link_details": "查看詳情",
+    "unit_year": "kgCO2e/年",
+    "modal_title": "紀錄詳情",
+    "modal_breakdown": "排放分佈",
+    "modal_suggestion": "減碳建議",
+    "label_date": "日期",
+    "category": {
+      "transport": "交通",
+      "diet": "飲食",
+      "consumption": "消費",
+      "energy": "能源",
+      "waste": "廢棄物"
+    }
+  },
+  "regional": {
+    "title": "台灣區域碳排大數據",
+    "label_city": "選擇縣市",
+    "label_district": "選擇行政區 (選填)",
+    "option_all_districts": "全區統計",
+    "btn_query": "查詢數據",
+    "loading": "數據分析中...",
+    "empty_title": "該區域目前還沒有足夠的樣本資料",
+    "empty_desc": "快邀請住在 {{region}} 的朋友來測驗吧！",
+    "card_avg": "平均年碳排",
+    "card_source": "主要排放來源",
+    "card_sample": "樣本數",
+    "chart_title": "{{region}} 平均排放結構",
+    "disclaimer": "* 此數據基於本平台使用者輸入之平均值，僅供參考。",
+    "no_data": "無資料"
+  },
+  "quiz": {
+    "title": "綠能知識小測驗",
+    "welcome_title": "挑戰你的環保智商！",
+    "welcome_desc": "隨機抽出 10 道題目，測試你對綠能、回收與碳足跡的了解。準備好成為減碳達人了嗎？",
+    "btn_start": "開始測驗",
+    "score_label": "分數：",
+    "question_progress": "第 {{current}} 題 / 共 {{total}} 題",
+    "status_correct": "答對了！",
+    "status_wrong": "答錯囉！",
+    "btn_next": "下一題",
+    "btn_result": "查看結果",
+    "score_unit": "分",
+    "msg_perfect": "太神啦！你是環保知識王！",
+    "msg_good": "表現不錯！繼續保持！",
+    "msg_keep_trying": "再接再厲，一起學習綠能知識！",
+    "btn_dashboard": "回儀表板",
+    "btn_retry": "再玩一次"
   }
 }

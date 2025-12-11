@@ -1,10 +1,12 @@
-// frontend/src/components/Auth/RegisterFields.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaMapMarkerAlt, FaBriefcase, FaVenusMars, FaCalendarAlt } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next'; // ✨ 引入
 import { taiwanPlaces, occupations } from '../../data/options';
 
 const RegisterFields = ({ formData, handleChange }) => {
+  const { t } = useTranslation(); // ✨ 使用 hook
+
   return (
     <motion.div 
         initial={{ opacity: 0, height: 0 }} 
@@ -15,11 +17,12 @@ const RegisterFields = ({ formData, handleChange }) => {
         <div className="relative group pt-1">
             <FaEnvelope className="absolute left-4 top-3.5 text-gray-400 transition group-focus-within:text-emerald-600" />
             <input 
-                type="email" // ✨ 確保 type 是 email，瀏覽器會自動驗證格式
+                type="email"
                 name="email" 
-                placeholder="電子信箱 (example@mail.com)" 
+                // ✨ 替換 placeholder (註：email 格式範例通常不用翻譯)
+                placeholder={`${t('auth.email')} (example@mail.com)`} 
                 required 
-                value={formData.email} // ✨ 綁定 value
+                value={formData.email}
                 className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400"
                 onChange={handleChange} 
             />
@@ -27,7 +30,9 @@ const RegisterFields = ({ formData, handleChange }) => {
         
         <div className="relative group">
             <span className="absolute left-4 top-3 text-gray-400 transition group-focus-within:text-emerald-600 text-lg">📝</span>
-            <input type="text" name="fullName" placeholder="真實姓名" required 
+            <input type="text" name="fullName" 
+                placeholder={t('auth.fullname')} // ✨ 替換 placeholder
+                required 
                 className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
                 onChange={handleChange} />
         </div>
@@ -35,7 +40,7 @@ const RegisterFields = ({ formData, handleChange }) => {
         {/* 性別選擇 */}
         <div className="bg-gray-50 p-3 rounded-xl border border-gray-100">
             <label className="flex items-center gap-2 text-gray-700 font-bold text-sm mb-2">
-                <FaVenusMars className="text-emerald-600"/> 性別
+                <FaVenusMars className="text-emerald-600"/> {t('auth.gender_label')}
             </label>
             <div className="flex gap-4">
                 {['Male', 'Female', 'Other'].map(g => (
@@ -47,18 +52,20 @@ const RegisterFields = ({ formData, handleChange }) => {
                             {formData.gender === g && <div className="w-2.5 h-2.5 bg-emerald-600 rounded-full"></div>}
                         </div>
                         <span className="text-gray-600 group-hover:text-emerald-700 transition text-sm">
-                            {g === 'Male' ? '男' : g === 'Female' ? '女' : '其他'}
+                            {/* ✨ 替換性別文字 */}
+                            {g === 'Male' ? t('auth.gender_male') : g === 'Female' ? t('auth.gender_female') : t('auth.gender_other')}
                         </span>
                     </label>
                 ))}
             </div>
             {formData.gender === 'Other' && (
-                <input type="text" name="genderOther" placeholder="請輸入" 
+                <input type="text" name="genderOther" 
+                    placeholder={t('auth.gender_specify')} // ✨ 替換 placeholder
                     className="mt-2 w-full p-2 border border-gray-200 rounded-lg text-sm focus:border-emerald-500 outline-none bg-white" onChange={handleChange} />
             )}
         </div>
 
-        {/* 地區選擇 */}
+        {/* 地區與其他 (這部分 taiwanPlaces 和 occupations 暫時維持原樣，因為資料量大) */}
         <div className="grid grid-cols-2 gap-3">
             <div className="relative">
                 <FaMapMarkerAlt className="absolute left-3 top-3.5 text-gray-400" />
@@ -73,7 +80,6 @@ const RegisterFields = ({ formData, handleChange }) => {
             </select>
         </div>
 
-        {/* 生日與職業 */}
         <div className="grid grid-cols-2 gap-3">
             <div className="relative">
                 <FaCalendarAlt className="absolute left-3 top-3.5 text-gray-400" />

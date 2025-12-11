@@ -28,7 +28,23 @@
     "switch_to_register": "No account yet?",
     "switch_to_login": "Already have an account?",
     "register_link": "Register Free",
-    "login_link": "Login Now"
+    "login_link": "Login Now",
+    "gender_label": "Gender",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "gender_other": "Other",
+    "gender_specify": "Please specify",
+    "strength_label": "Strength:",
+    "strength_weak": "Weak",
+    "strength_medium": "Medium",
+    "strength_strong": "Strong",
+    "tip_prefix": "💡 Tip: ",
+    "tip_length": "Add length",
+    "tip_number": "Add numbers",
+    "tip_symbol": "Add symbols",
+    "tip_letter": "Add letters",
+    "error_generic": "An error occurred, please try again later.",
+    "success_register": "Registration successful! Please log in."
   },
   "background": {
     "section_title": "Background & Philosophy",
@@ -192,5 +208,119 @@
   "footer": {
     "project_info": "Department of Computer Science Graduation Project — Personal Carbon Footprint Platform",
     "copyright": "© {{year}} All rights reserved. Using technology to do our part for the Earth."
+  },
+  "dashboard": {
+    "member_center": "Member Center",
+    "logout": "Logout",
+    "home": "Home",
+    "banner_tag": "2025 Net Zero Plan",
+    "main_title_1": "Your Net-Zero Life",
+    "main_title_2": "Starts Here",
+    "main_desc": "CarbonTrace provides comprehensive tools to help you move from data awareness to action. Explore the features below to begin.",
+    "feature_gallery": "FEATURE GALLERY",
+    "btn_enter": "Enter",
+    "btn_start": "Start Now",
+    "btn_open": "Open Tool",
+    "label_usage": "Usage",
+    "label_philosophy": "Philosophy",
+    "label_ready": "Ready to start?",
+    "tool_info": "TOOL INFO",
+
+    "cards": {
+      "quick": {
+        "title": "Quick Estimate",
+        "usage": "For busy modern lives. Answer 3 simple lifestyle questions in 30 seconds to get an instant annual carbon overview.",
+        "philosophy": "We believe 'low barrier' is the first step to change. Build your carbon intuition without digging through bills."
+      },
+      "detailed": {
+        "title": "Detailed Analysis",
+        "usage": "Input precise data like electricity bills and mileage. The system uses the latest Taiwan coefficients to generate research-grade reports.",
+        "philosophy": "Data is the cornerstone of change. Identify high-carbon hotspots hidden in life details through precise Life Cycle Assessment (LCA)."
+      },
+      "history": {
+        "title": "History Track",
+        "usage": "Your digital eco-passbook. The system automatically saves every calculation result and plots long-term trend charts.",
+        "philosophy": "Carbon reduction is not a momentary passion, but a long-term persistence. Seeing the downward trajectory is the greatest source of achievement."
+      },
+      "regional": {
+        "title": "Regional Map",
+        "usage": "Big Data Dashboard. Explore the average carbon emissions of your city and compare them with the national average.",
+        "philosophy": "Connecting individuals and communities. Through geographic information, we see differences in urban energy structures and drive localized climate action."
+      },
+      "quiz": {
+        "title": "Green Energy Quiz",
+        "usage": "Randomly draw 10 quick questions on environmental knowledge. Challenge your green knowledge base and accumulate points.",
+        "philosophy": "Knowledge is power. Through gamified learning, difficult energy knowledge becomes interesting and easy to absorb."
+      }
+    },
+    "narrative": {
+      "vision": {
+        "title": "Seeing the Invisible",
+        "text": "Carbon emissions are invisible, but their impact is real. CarbonTrace transforms abstract data into visualized charts, allowing you to truly 'see' your life's impact on the Earth."
+      },
+      "action": {
+        "title": "From Data to Action",
+        "text": "Knowing the numbers is just the first step. We provide customized reduction suggestions to help you make eco-friendly decisions without compromising quality of life."
+      },
+      "impact": {
+        "title": "Gathering Small Forces",
+        "text": "One person's change may be small, but a group's persistence can change the world. We connect every reduction effort towards the 2050 Net Zero goal."
+      }
+    }
+  },
+  "history": {
+    "title": "Historical Records",
+    "loading": "Loading...",
+    "empty_msg": "No records found yet!",
+    "btn_first_calc": "Calculate First Record",
+    "type_detailed": "Detailed",
+    "type_quick": "Quick",
+    "link_details": "View Details",
+    "unit_year": "kgCO2e/year",
+    "modal_title": "Record Details",
+    "modal_breakdown": "Emission Breakdown",
+    "modal_suggestion": "Suggestions",
+    "label_date": "Date",
+    "category": {
+      "transport": "Transport",
+      "diet": "Diet",
+      "consumption": "Consumption",
+      "energy": "Energy",
+      "waste": "Waste"
+    }
+  },
+  "regional": {
+    "title": "Regional Carbon Data",
+    "label_city": "Select City",
+    "label_district": "Select District (Optional)",
+    "option_all_districts": "All Districts",
+    "btn_query": "Query Data",
+    "loading": "Analyzing data...",
+    "empty_title": "Insufficient data for this region",
+    "empty_desc": "Invite friends living in {{region}} to take the test!",
+    "card_avg": "Avg Annual Emission",
+    "card_source": "Top Emission Source",
+    "card_sample": "Sample Count",
+    "chart_title": "{{region}} Average Emission Structure",
+    "disclaimer": "* Data based on user inputs, for reference only.",
+    "no_data": "No Data"
+  },
+  "quiz": {
+    "title": "Green Energy Quiz",
+    "welcome_title": "Challenge Your Eco-IQ!",
+    "welcome_desc": "Randomly draw 10 questions to test your knowledge on green energy, recycling, and carbon footprints. Ready to become a carbon reduction expert?",
+    "btn_start": "Start Quiz",
+    "score_label": "Score:",
+    "question_progress": "Question {{current}} / {{total}}",
+    "status_correct": "Correct!",
+    "status_wrong": "Wrong!",
+    "btn_next": "Next Question",
+    "btn_result": "View Results",
+    "score_unit": "Points",
+    "msg_perfect": "Amazing! You are an Eco-Master!",
+    "msg_good": "Good job! Keep it up!",
+    "msg_keep_trying": "Keep trying! Let's learn more green knowledge!",
+    "btn_dashboard": "Back to Dashboard",
+    "btn_retry": "Play Again"
   }
 }

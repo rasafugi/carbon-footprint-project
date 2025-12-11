@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'; // ✨ 引入 useRef
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { FaTimes, FaUser, FaLock } from 'react-icons/fa';
+import { FaTimes, FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
 import { occupations, taiwanPlaces } from '../../data/options';
 
@@ -29,6 +29,8 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const [showPassword, setShowPassword] = useState(false); // ✨ 控制密碼顯示
+
   // ✨ 密碼強度計算函式
   const calculatePasswordStrength = (password) => {
     if (!password) return { label: '', color: '', width: '0%', tips: [] };
@@ -36,26 +38,44 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     let score = 0;
     let tips = [];
 
-    // 1. 基礎規則加分
-    if (password.length >= 8) score += 1;
-    if (password.length >= 12) score += 1; // 長度夠長額外加分
-    if (/[a-z]/.test(password)) score += 1;
-    if (/[A-Z]/.test(password)) score += 1;
-    if (/[0-9]/.test(password)) score += 1;
-    if (/[^A-Za-z0-9]/.test(password)) score += 1; // 符號加分
+    // --- 基礎檢測 ---
+    const hasLower = /[a-z]/.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[^A-Za-z0-9]/.test(password);
+    const isLong = password.length >= 12;
 
-    // 2. 收集增強建議 (如果分數未滿，給予提示)
+    // --- 給分邏輯 ---
+    // 1. 長度基本分
+    if (password.length >= 8) score += 1;
+    
+    // 2. 類型多樣性 (最多拿 3 分)
+    let varietyCount = 0;
+    if (hasLower) varietyCount++;
+    if (hasUpper) varietyCount++;
+    if (hasNumber) varietyCount++;
+    if (hasSpecial) varietyCount++;
+    score += varietyCount;
+
+    // 3. 長度獎勵 (關鍵修改：夠長直接 +2，讓純英數長密碼也能高分)
+    if (isLong) score += 2;
+
+    // --- 產生建議 ---
+    // 如果分數未達標 (小於 5)，才給建議
     if (score < 5) {
-        if (password.length < 12) tips.push("增加長度");
-        if (!/[A-Z]/.test(password)) tips.push("加入大寫");
-        if (!/[0-9]/.test(password)) tips.push("加入數字");
-        if (!/[^A-Za-z0-9]/.test(password)) tips.push("加入符號");
+        if (!isLong) tips.push("增加長度");
+        if (!hasNumber) tips.push("加入數字");
+        if (!hasSpecial) tips.push("加入符號");
+        if (!hasUpper && !hasLower) tips.push("加入英文"); // 防呆
     }
 
-    // 3. 判定等級 (放寬標準：夠長且有英數混和即可達強)
+    // --- 判定等級 ---
+    // 弱: 0-2 分
+    // 中: 3-4 分
+    // 強: 5 分以上 (例如: 8碼+英+數+符號=1+3=4分(中) / 12碼+英+數=1+2+2=5分(強))
     if (score < 3) return { label: '弱', color: 'bg-red-500', width: '33%', tips };
     if (score < 5) return { label: '中等', color: 'bg-yellow-500', width: '66%', tips };
-    return { label: '強', color: 'bg-green-500', width: '100%', tips: [] }; // 強就不顯示建議
+    return { label: '強', color: 'bg-green-500', width: '100%', tips: [] };
   };
 
   const pwdStrength = calculatePasswordStrength(formData.password);
@@ -195,14 +215,24 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                   <div className="relative group">
                     <FaLock className="absolute left-4 top-3.5 text-gray-400 transition group-focus-within:text-emerald-600" />
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"} // ✨ 動態切換 type
                       name="password"
                       placeholder="密碼"
                       required
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400"
+                      // ✨ 增加 padding-right (pr-10) 避免文字被眼睛圖示擋住
+                      className="w-full pl-11 pr-10 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400"
                     />
+                    
+                    {/* ✨ 顯示/隱藏密碼按鈕 */}
+                    <button
+                      type="button" // 務必設為 button，避免觸發 submit
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-3.5 text-gray-400 hover:text-emerald-600 focus:outline-none transition-colors"
+                    >
+                      {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                    </button>
                   </div>
                   
                   {/* ✨ 密碼強度提示 (只在註冊時且密碼有輸入時顯示) */}

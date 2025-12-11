@@ -53,15 +53,15 @@ input, textarea {
     transform: translateY(0);
   }
   100% {
-    /* 移動到列表的一半高度，配合重複的列表項目實現無縫循環 */
+    /* 確保這裡是 -50%，代表移動總長度的一半 */
     transform: translateY(-50%);
   }
 }
 
-/* 應用動畫的類別 */
 .animate-scroll-up {
-  /* 持續時間 30s，線性速度，無限循環 */
+  /* 時間設為 40s 或依需求調整 */
   animation: scrollUp 40s linear infinite;
+  will-change: transform; /* 啟用 GPU 加速，防止卡頓 */
 }
 
 /* 當有卡片被選中時，暫停動畫 */

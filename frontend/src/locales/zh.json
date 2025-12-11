@@ -162,39 +162,6 @@
     "btn_dashboard": "回儀表板",
     "btn_retry": "再玩一次"
   },
-  "quick": {
-    "title": "快速碳排估算",
-    "q_commute": "平常最主要的通勤方式？",
-    "q_diet": "平常的飲食習慣？",
-    "q_shopping": "每月平均購物消費 (不含餐費)？",
-    "options": {
-      "scooter_gas": "燃油機車",
-      "scooter_electric": "電動機車",
-      "car_gas": "燃油汽車",
-      "car_electric": "電動汽車",
-      "public": "大眾運輸",
-      "bike": "走路/單車",
-      "meat_heavy": "無肉不歡 (肉食為主)",
-      "balanced": "均衡飲食 (蛋奶肉菜)",
-      "convenience": "外食族 (加工食品多)",
-      "vegetarian": "素食/蔬食",
-      "low": "節儉 (1萬以下)",
-      "medium": "一般 (1~3萬)",
-      "high": "享樂 (3萬以上)"
-    },
-    "btn_calc": "開始計算",
-    "btn_calculating": "計算中...",
-    "btn_retry": "重新測驗",
-    "result_title": "您的年度預估碳排放量",
-    "result_breakdown": "排放來源分析",
-    "result_suggestion": "給您的減碳建議",
-    "unit_year": "kgCO2e/年",
-    "labels": {
-      "transport": "交通",
-      "diet": "飲食",
-      "consumption": "消費"
-    }
-  },
   "detailed": {
     "title": "詳細碳排分析",
     "btn_prev": "上一步",
@@ -289,6 +256,39 @@
     },
     "waste": {
       "1": "落實垃圾分類與回收，能有效減少廢棄物焚燒產生的碳排。"
+    }
+  },
+  "quick": {
+    "title": "快速碳排估算",
+    "q_commute": "平常最主要的通勤方式？",
+    "q_diet": "平常的飲食習慣？",
+    "q_shopping": "每月平均購物消費 (不含餐費)？",
+    "options": {
+      "scooter_gas": "燃油機車",
+      "scooter_electric": "電動機車",
+      "car_gas": "燃油汽車",
+      "car_electric": "電動汽車",
+      "public": "大眾運輸",
+      "bike": "走路/單車",
+      "meat_heavy": "無肉不歡 (肉食為主)",
+      "balanced": "均衡飲食 (蛋奶肉菜)",
+      "convenience": "外食族 (加工食品多)",
+      "vegetarian": "素食/蔬食",
+      "low": "節儉 (1萬以下)",
+      "medium": "一般 (1~3萬)",
+      "high": "享樂 (3萬以上)"
+    },
+    "btn_calc": "開始計算",
+    "btn_calculating": "計算中...",
+    "btn_retry": "重新測驗",
+    "result_title": "您的年度預估碳排放量",
+    "result_breakdown": "排放來源分析",
+    "result_suggestion": "給您的減碳建議",
+    "unit_year": "kgCO2e/年",
+    "labels": {
+      "transport": "交通",
+      "diet": "飲食",
+      "consumption": "消費"
     }
   }
 }

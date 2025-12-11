@@ -419,5 +419,38 @@
     "waste": {
       "1": "Proper recycling effectively reduces carbon emissions from waste incineration."
     }
+  },
+  "quick": {
+    "title": "Quick Carbon Estimation",
+    "q_commute": "Main mode of commute?",
+    "q_diet": "Dietary habits?",
+    "q_shopping": "Monthly shopping spend (excl. food)?",
+    "options": {
+      "scooter_gas": "Gas Scooter",
+      "scooter_electric": "Electric Scooter",
+      "car_gas": "Gas Car",
+      "car_electric": "Electric Car",
+      "public": "Public Transport",
+      "bike": "Walk / Bike",
+      "meat_heavy": "Meat Lover",
+      "balanced": "Balanced",
+      "convenience": "Convenience / Eating Out",
+      "vegetarian": "Vegetarian",
+      "low": "Frugal (< 10k)",
+      "medium": "Average (10k-30k)",
+      "high": "High (> 30k)"
+    },
+    "btn_calc": "Calculate",
+    "btn_calculating": "Calculating...",
+    "btn_retry": "Retake Quiz",
+    "result_title": "Estimated Annual Carbon Footprint",
+    "result_breakdown": "Emission Source Analysis",
+    "result_suggestion": "Carbon Reduction Suggestions",
+    "unit_year": "kgCO2e/year",
+    "labels": {
+      "transport": "Transport",
+      "diet": "Diet",
+      "consumption": "Consumption"
+    }
   }
 }

@@ -14,9 +14,15 @@ const RegisterFields = ({ formData, handleChange }) => {
     >
         <div className="relative group pt-1">
             <FaEnvelope className="absolute left-4 top-3.5 text-gray-400 transition group-focus-within:text-emerald-600" />
-            <input type="email" name="email" placeholder="電子信箱" required 
-                className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
-                onChange={handleChange} />
+            <input 
+                type="email" // ✨ 確保 type 是 email，瀏覽器會自動驗證格式
+                name="email" 
+                placeholder="電子信箱 (example@mail.com)" 
+                required 
+                value={formData.email} // ✨ 綁定 value
+                className="w-full pl-11 p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400"
+                onChange={handleChange} 
+            />
         </div>
         
         <div className="relative group">

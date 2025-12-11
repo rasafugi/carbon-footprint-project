@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_manager import get_db_connection
+import re # ✨ 新增：用於驗證 Email 格式
 
 # 定義藍圖，名稱為 'auth'
 auth_bp = Blueprint('auth', __name__)
@@ -13,6 +14,15 @@ def register():
     if not all(k in data for k in required_fields):
         return jsonify({"error": "缺少必填欄位"}), 400
 
+    # ✨ 新增：驗證 Email 格式
+    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    if not re.match(email_regex, data['email']):
+        return jsonify({"error": "Email 格式不正確"}), 400
+
+    # ✨ 新增：驗證密碼長度 (建議至少 6 碼)
+    if len(data['password']) < 6:
+        return jsonify({"error": "密碼長度至少需 6 個字元"}), 400
+
     gender_val = data['gender']
     gender_other_val = data.get('genderOther', None) if gender_val == 'Other' else None
 
@@ -20,9 +30,13 @@ def register():
     cursor = conn.cursor(dictionary=True)
 
     try:
-        cursor.execute("SELECT id FROM users WHERE username = %s OR email = %s", (data['username'], data['email']))
+        cursor.execute("SELECT username FROM users WHERE username = %s", (data['username'],))
         if cursor.fetchone():
-            return jsonify({"error": "帳號或 Email 已被註冊"}), 409
+            return jsonify({"error": "此帳號已被註冊"}), 409
+
+        cursor.execute("SELECT email FROM users WHERE email = %s", (data['email'],))
+        if cursor.fetchone():
+            return jsonify({"error": "此 Email 已被註冊"}), 409
 
         hashed_password = generate_password_hash(data['password'])
         
@@ -42,7 +56,7 @@ def register():
 
     except Exception as e:
         print(f"Register Error: {e}")
-        return jsonify({"error": "伺服器錯誤"}), 500
+        return jsonify({"error": "伺服器錯誤，請稍後再試"}), 500
     finally:
         cursor.close()
         conn.close()

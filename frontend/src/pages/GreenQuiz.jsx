@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaBrain, FaLeaf, FaCheckCircle, FaTimesCircle, FaRedo, FaGlobe } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next'; // ✨ 引入
-import questionsZh from '../data/quizQuestions.json';
+import questionsZh from '../data/quizQuestions_zh.json';
 import questionsEn from '../data/quizQuestions_en.json';
 
 const GreenQuiz = () => {

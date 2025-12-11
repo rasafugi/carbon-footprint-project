@@ -14,7 +14,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # --- 1. 設定 Session 與 安全性 ---
-app.secret_key = os.getenv("SECRET_KEY", "dev_secret_key_change_in_production")
+app.secret_key = os.getenv("SECRET_KEY")
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = False  # 開發環境 (HTTP) 設為 False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -44,4 +44,5 @@ def home():
     return "Carbon Footprint API is running!"
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    is_debug = os.getenv("FLASK_ENV") == "development"
+    app.run(debug=is_debug, port=5000, host='0.0.0.0')

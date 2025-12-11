@@ -25,9 +25,7 @@ function App() {
         if (res.data.is_logged_in) {
           setCurrentUser(res.data.user);
         }
-      } catch (error) {
-        console.log("訪客瀏覽模式 (尚未登入)");
-      }
+      } catch (error) {}
     };
     checkLoginStatus();
   }, []);

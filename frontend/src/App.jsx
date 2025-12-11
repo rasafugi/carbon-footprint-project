@@ -9,6 +9,8 @@ import QuickEstimation from './pages/QuickEstimation';
 import LandingPage from './pages/LandingPage'; 
 import DetailedAnalysis from './pages/DetailedAnalysis';
 import HistoryPage from './pages/HistoryPage';
+import RegionalStats from './pages/RegionalStats';
+import GreenQuiz from './pages/GreenQuiz';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,6 +70,14 @@ function App() {
 
         <Route path="/history" element={
             currentUser ? <HistoryPage /> : <Navigate to="/" replace />
+        } />
+
+        <Route path="/regional-stats" element={
+            currentUser ? <RegionalStats /> : <Navigate to="/" replace />
+        } />
+
+        <Route path="/green-quiz" element={
+            currentUser ? <GreenQuiz /> : <Navigate to="/" replace />
         } />
 
       </Routes>
